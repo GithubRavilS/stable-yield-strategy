@@ -1153,7 +1153,7 @@
                                 <td data-i18n="portfolio.yield">Yield</td>
                             </tr>
                             <tr>
-                                <td><strong>Stable LP Pools</strong></td>
+                                <td><strong data-i18n="portfolio.stableLpPools">Stable LP Pools</strong></td>
                                 <td><span class="percentage-badge">34%</span></td>
                                 <td>6–14%</td>
                                 <td data-i18n="portfolio.fees">Pool fees</td>
@@ -1196,7 +1196,7 @@
                         <span data-i18n="howitworks.pendleNote">Fixed yield on principal tokens</span>
                     </div>
                     <div class="flow-card flow-branch-card">
-                        Stable LP
+                        <span data-i18n="howitworks.stableLp">Stable LP</span>
                         <span data-i18n="howitworks.stableLpNote">Swap fees from stablecoin pools</span>
                     </div>
                 </div>
@@ -1609,6 +1609,7 @@
                 "portfolio.type": "Income Type",
                 "portfolio.trading": "Trading fees",
                 "portfolio.fees": "Pool fees",
+                "portfolio.stableLpPools": "Stable LP Pools",
                 "howitworks.title": "How It Works",
                 "howitworks.capital": "Capital",
                 "howitworks.stablecoins": "Stablecoins",
@@ -1620,6 +1621,7 @@
                 "howitworks.splitNote": "Equal allocation between strategies",
                 "howitworks.hlpNote": "Perpetuals trading fees (Hyperliquid)",
                 "howitworks.pendleNote": "Fixed yield on principal tokens",
+                "howitworks.stableLp": "Stable LP",
                 "howitworks.stableLpNote": "Swap fees from stablecoin pools",
                 "howitworks.yieldNote": "Combined income from all three sources",
                 "returns.title": "Expected Returns",
@@ -1746,6 +1748,7 @@
                 "portfolio.type": "Тип дохода",
                 "portfolio.trading": "Торговые комиссии",
                 "portfolio.fees": "Комиссии пула",
+                "portfolio.stableLpPools": "Стейбл LP пулы",
                 "howitworks.title": "Как это работает",
                 "howitworks.capital": "Капитал",
                 "howitworks.stablecoins": "Стейблкоины",
@@ -1757,6 +1760,7 @@
                 "howitworks.splitNote": "Равномерное распределение между стратегиями",
                 "howitworks.hlpNote": "Комиссии с торговли perpetual-контрактами (Hyperliquid)",
                 "howitworks.pendleNote": "Фиксированная доходность на principal-токены",
+                "howitworks.stableLp": "Стейбл LP пулы",
                 "howitworks.stableLpNote": "Комиссии за свопы в пулах стейблкоинов",
                 "howitworks.yieldNote": "Совокупный доход из трёх источников",
                 "returns.title": "Ожидаемая доходность",
@@ -1910,7 +1914,7 @@
             portfolioChartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Hyperliquid HLP', 'Pendle Finance', 'Stable LP Pools'],
+                    labels: ['Hyperliquid HLP', 'Pendle Finance', translations[currentLanguage]['portfolio.stableLpPools']],
                     datasets: [{
                         data: [33, 33, 34],
                         backgroundColor: ['#2F80ED', '#27AE60', '#F2C94C'],

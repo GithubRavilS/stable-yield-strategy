@@ -127,9 +127,12 @@
 
         .hero-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             margin-top: 40px;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-card {
@@ -1089,7 +1092,7 @@
                     <div class="hero-card-label" data-i18n="hero.risk">Risk Level</div>
                 </div>
                 <div class="hero-card">
-                    <div class="hero-card-value">6mo+</div>
+                    <div class="hero-card-value" data-i18n="hero.horizonValue">6mo+</div>
                     <div class="hero-card-label" data-i18n="hero.horizon">Time Horizon</div>
                 </div>
                 <div class="hero-card">
@@ -1594,6 +1597,7 @@
                 "hero.riskValue": "Low",
                 "hero.risk": "Risk Level",
                 "hero.horizon": "Time Horizon",
+                "hero.horizonValue": "6mo+",
                 "hero.minimum": "Minimum",
                 "desc.para1": "Stable Yield Strategy is a conservative investment model that allows you to generate stable yield on stablecoins through DeFi protocols.",
                 "desc.para2": "The strategy is independent of crypto market movements because capital is deployed in instruments that generate yield on stablecoins themselves.",
@@ -1730,6 +1734,7 @@
                 "hero.riskValue": "Низкий",
                 "hero.risk": "Уровень риска",
                 "hero.horizon": "Горизонт инвестиций",
+                "hero.horizonValue": "6 мес.+",
                 "hero.minimum": "Минимум",
                 "desc.para1": "Стратегия стабильного дохода — консервативная инвестиционная модель, позволяющая получать стабильную доходность на стейблкоинах через DeFi-протоколы.",
                 "desc.para2": "Стратегия независима от движений крипторынка, так как капитал размещается в инструментах, генерирующих доход на самих стейблкоинах.",

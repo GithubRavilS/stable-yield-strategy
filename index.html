@@ -115,6 +115,7 @@
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -1px;
+            white-space: nowrap;
         }
 
         .hero-subtitle {
@@ -244,7 +245,11 @@
         .charts-container {
             position: relative;
             height: 300px;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 360px;
+            margin: 0 auto 20px;
         }
 
         .portfolio-table {
@@ -285,41 +290,61 @@
         .how-it-works {
             background: var(--white);
         }
-
+        
         .flow-diagram {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 24px;
+            gap: 20px;
             margin-bottom: 40px;
-            overflow-x: auto;
             padding: 20px 0;
         }
-
-        .flow-item {
-            background: linear-gradient(135deg, #0F1115, #1a1f2e);
-            color: var(--white);
-            padding: 24px 32px;
+        
+        .flow-card {
+            background: #FAFBFC;
             border-radius: 12px;
-            font-weight: 600;
-            min-width: 140px;
+            padding: 18px 24px;
+            min-width: 180px;
             text-align: center;
             font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(47, 128, 237, 0.25);
+            box-shadow: 0 4px 12px rgba(15, 17, 21, 0.04);
         }
-
+        
+        .flow-card span {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .flow-card-yield {
+            background: linear-gradient(135deg, #27AE60, #1e8449);
+            color: var(--white);
+            border-color: transparent;
+        }
+        
+        .flow-branches {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            width: 100%;
+            max-width: 720px;
+        }
+        
+        .flow-branch-card {
+            flex: 1;
+            min-width: 180px;
+        }
+        
         .flow-arrow {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--accent);
-            display: none;
         }
-
-        @media (min-width: 769px) {
-            .flow-arrow {
-                display: block;
-            }
-        }
-
+        
         .flow-description {
             background: #F0F6FF;
             padding: 24px;
@@ -465,21 +490,31 @@
         }
 
         .risk-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 40px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .risk-analysis-block {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             align-items: center;
         }
 
-        @media (max-width: 768px) {
-            .risk-content {
-                grid-template-columns: 1fr;
-            }
+        .risk-analysis-block h3 {
+            text-align: center;
+            width: 100%;
         }
 
         .risk-table {
             width: 100%;
+            max-width: 520px;
             border-collapse: collapse;
+            margin: 0 auto;
         }
 
         .risk-table th {
@@ -514,21 +549,13 @@
 
         .risk-indicator {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
-        }
-
-        .risk-scale {
-            display: flex;
             gap: 12px;
-            align-items: center;
+            width: 100%;
+            max-width: 400px;
         }
-
-        .risk-label {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
+        
         .risk-bar {
             flex: 1;
             height: 40px;
@@ -762,56 +789,52 @@
         }
 
         .scenarios-visual {
-            position: relative;
-            height: 300px;
             margin-bottom: 32px;
             background: linear-gradient(180deg, rgba(47, 128, 237, 0.05) 0%, transparent 100%);
             border-radius: 12px;
             padding: 24px;
             display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-        }
-
-        .scenario-line {
-            width: 80px;
-            background: linear-gradient(180deg, transparent 0%, var(--accent) 100%);
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            display: flex;
-            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
             justify-content: center;
-            padding-bottom: 16px;
-            color: var(--white);
+        }
+        
+        .scenario-pill {
+            flex: 1;
+            min-width: 200px;
+            max-width: 260px;
+            background: linear-gradient(135deg, rgba(47, 128, 237, 0.12), rgba(47, 128, 237, 0.02));
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid rgba(47, 128, 237, 0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .scenario-pill-label {
             font-size: 12px;
             font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-light);
         }
-
-        .scenario-line:nth-child(1) {
-            height: 80px;
+        
+        .scenario-pill-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
         }
-
-        .scenario-line:nth-child(2) {
-            height: 150px;
+        
+        .scenario-pill-caption {
+            font-size: 13px;
+            color: var(--text-light);
         }
-
-        .scenario-line:nth-child(3) {
-            height: 80px;
-        }
-
-        .scenario-convergence {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--success);
-            opacity: 0.7;
-        }
-
+        
         .scenarios-table {
             width: 100%;
             border-collapse: collapse;
+            margin: 0 auto;
         }
 
         .scenarios-table th {
@@ -969,6 +992,10 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
+            .hero h1 {
+                font-size: 26px;
+            }
+
             .steps-grid {
                 grid-template-columns: 1fr;
             }
@@ -989,7 +1016,7 @@
 
         @media (max-width: 480px) {
             .hero h1 {
-                font-size: 28px;
+                font-size: clamp(18px, 5vw, 22px);
             }
 
             .hero-subtitle {
@@ -997,7 +1024,7 @@
             }
 
             .hero-cards {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .section-title {
@@ -1014,10 +1041,6 @@
             }
 
             .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .risk-content {
                 grid-template-columns: 1fr;
             }
         }
@@ -1043,7 +1066,7 @@
 <body class="scroll-smooth">
     <!-- HEADER -->
     <header>
-        <div class="logo">💰 Stable Yield</div>
+        <div class="logo" data-i18n="header.logo">💰 Stable Yield</div>
         <div class="lang-selector">
             <button class="lang-btn active" data-lang="en">EN</button>
             <button class="lang-btn" data-lang="ru">РУ</button>
@@ -1145,15 +1168,40 @@
             <h2 class="section-title" data-i18n="howitworks.title">How It Works</h2>
             
             <div class="flow-diagram">
-                <div class="flow-item" data-i18n="howitworks.capital">Capital</div>
+                <div class="flow-card" data-i18n="howitworks.capital">
+                    Capital
+                    <span data-i18n="howitworks.capitalNote">Initial portfolio value</span>
+                </div>
                 <div class="flow-arrow">↓</div>
-                <div class="flow-item" data-i18n="howitworks.stablecoins">Stablecoins</div>
+                <div class="flow-card" data-i18n="howitworks.stablecoins">
+                    Stablecoins
+                    <span data-i18n="howitworks.stablecoinsNote">Conversion to USDC / USDT</span>
+                </div>
                 <div class="flow-arrow">↓</div>
-                <div class="flow-item" data-i18n="howitworks.split">Split into 3</div>
+                <div class="flow-card" data-i18n="howitworks.split">
+                    Split into 3
+                    <span data-i18n="howitworks.splitNote">Equal allocation between strategies</span>
+                </div>
                 <div class="flow-arrow">↓</div>
-                <div class="flow-item">HLP | Pendle | LP</div>
+                <div class="flow-branches">
+                    <div class="flow-card flow-branch-card">
+                        HLP
+                        <span data-i18n="howitworks.hlpNote">Perpetuals trading fees (Hyperliquid)</span>
+                    </div>
+                    <div class="flow-card flow-branch-card">
+                        Pendle
+                        <span data-i18n="howitworks.pendleNote">Fixed yield on principal tokens</span>
+                    </div>
+                    <div class="flow-card flow-branch-card">
+                        Stable LP
+                        <span data-i18n="howitworks.stableLpNote">Swap fees from stablecoin pools</span>
+                    </div>
+                </div>
                 <div class="flow-arrow">↓</div>
-                <div class="flow-item" style="background: linear-gradient(135deg, #27AE60, #1e8449); color: var(--white);" data-i18n="howitworks.yield">Yield 📈</div>
+                <div class="flow-card flow-card-yield" data-i18n="howitworks.yield">
+                    Yield 📈
+                    <span data-i18n="howitworks.yieldNote">Combined income from all three sources</span>
+                </div>
             </div>
 
             <div class="flow-description" data-i18n="howitworks.description">
@@ -1236,7 +1284,7 @@
             <h2 class="section-title" data-i18n="risk.title">Risk Model</h2>
             
             <div class="risk-content">
-                <div>
+                <div class="risk-analysis-block">
                     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;" data-i18n="risk.analysis">Risk Analysis</h3>
                     <table class="risk-table">
                         <thead>
@@ -1267,14 +1315,8 @@
                 </div>
 
                 <div class="risk-indicator">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;width: 100%;" data-i18n="risk.riskGauge">Risk Gauge</h3>
-                    <div class="risk-bar">
+                    <div class="risk-bar" aria-hidden="true">
                         <div class="risk-indicator-pin"></div>
-                    </div>
-                    <div class="risk-scale">
-                        <div class="risk-label" data-i18n="risk.low">Low</div>
-                        <div class="risk-label" data-i18n="risk.medium">Medium</div>
-                        <div class="risk-label" data-i18n="risk.high">High</div>
                     </div>
                 </div>
             </div>
@@ -1399,14 +1441,25 @@
         <div class="container">
             <h2 class="section-title" data-i18n="scenarios.title">Market Scenarios</h2>
             
-            <div class="scenarios-container">
+                <div class="scenarios-container">
                 <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;" data-i18n="scenarios.subtitle">Strategy Performance Under Different Bitcoin Prices</h3>
                 
                 <div class="scenarios-visual">
-                    <div class="scenario-line">$35K</div>
-                    <div class="scenario-line">$70K</div>
-                    <div class="scenario-line">$120K</div>
-                    <div class="scenario-convergence"></div>
+                    <div class="scenario-pill">
+                        <div class="scenario-pill-label" data-i18n="scenarios.bearish">Bearish</div>
+                        <div class="scenario-pill-value">BTC $35K</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.bearishNote">Strategy yield remains ~11% APY</div>
+                    </div>
+                    <div class="scenario-pill">
+                        <div class="scenario-pill-label" data-i18n="scenarios.baseline">Baseline</div>
+                        <div class="scenario-pill-value">BTC $70K</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.baselineNote">Neutral market, same yield profile</div>
+                    </div>
+                    <div class="scenario-pill">
+                        <div class="scenario-pill-label" data-i18n="scenarios.bullish">Bullish</div>
+                        <div class="scenario-pill-value">BTC $120K</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.bullishNote">Upside in BTC, stable strategy income</div>
+                    </div>
                 </div>
 
                 <table class="scenarios-table">
@@ -1427,7 +1480,7 @@
                         </tr>
                         <tr>
                             <td data-i18n="scenarios.baseline"><strong>Baseline</strong></td>
-                            <td>$70,000 (Current)</td>
+                            <td data-i18n="scenarios.btcCurrent">$70,000 (Current)</td>
                             <td><span class="risk-level-low">11% APY</span></td>
                             <td data-i18n="scenarios.flat">✅ Flat (no correlation)</td>
                         </tr>
@@ -1534,6 +1587,7 @@
         // ========== TRANSLATIONS ==========
         const translations = {
             en: {
+                "header.logo": "💰 Stable Yield",
                 "hero.title": "Stable Yield Strategy",
                 "hero.subtitle": "Conservative yield strategy on stablecoins",
                 "hero.apy": "APY",
@@ -1557,6 +1611,13 @@
                 "howitworks.split": "Split into 3",
                 "howitworks.yield": "Yield 📈",
                 "howitworks.description": "Income is generated through protocol commissions, interest rates, and trading operations within DeFi.",
+                "howitworks.capitalNote": "Initial portfolio value",
+                "howitworks.stablecoinsNote": "Conversion to USDC / USDT",
+                "howitworks.splitNote": "Equal allocation between strategies",
+                "howitworks.hlpNote": "Perpetuals trading fees (Hyperliquid)",
+                "howitworks.pendleNote": "Fixed yield on principal tokens",
+                "howitworks.stableLpNote": "Swap fees from stablecoin pools",
+                "howitworks.yieldNote": "Combined income from all three sources",
                 "returns.title": "Expected Returns",
                 "returns.conservative": "Conservative",
                 "returns.baseline": "Baseline",
@@ -1632,6 +1693,10 @@
                 "scenarios.stable": "✅ Stable (independent of BTC)",
                 "scenarios.flat": "✅ Flat (no correlation)",
                 "scenarios.unaffected": "✅ Unaffected (yields remain consistent)",
+                "scenarios.bearishNote": "Strategy yield remains ~11% APY",
+                "scenarios.baselineNote": "Neutral market, same yield profile",
+                "scenarios.bullishNote": "Upside in BTC, stable strategy income",
+                "scenarios.btcCurrent": "$70,000 (Current)",
                 "scenarios.explanation": "Key Point: Stable Yield Strategy delivers consistent returns regardless of market direction. Income streams from protocol commissions, interest rates, and trading fees remain stable even during market volatility.",
                 "scenarios.keyPoint": "Key Point:",
                 "warnings.title": "When to Rebalance",
@@ -1658,14 +1723,15 @@
                 "footer.risk": "Strategy carries protocol, stablecoin, and liquidity risks. Past performance ≠ future results."
             },
             ru: {
-                "hero.title": "Stable Yield Strategy",
+                "header.logo": "💰 Стабильный доход",
+                "hero.title": "Стратегия стабильного дохода",
                 "hero.subtitle": "Консервативная стратегия доходности на стейблкоинах",
                 "hero.apy": "APY",
                 "hero.riskValue": "Низкий",
                 "hero.risk": "Уровень риска",
                 "hero.horizon": "Горизонт инвестиций",
                 "hero.minimum": "Минимум",
-                "desc.para1": "Stable Yield Strategy — консервативная инвестиционная модель, позволяющая получать стабильную доходность на стейблкоинах через DeFi-протоколы.",
+                "desc.para1": "Стратегия стабильного дохода — консервативная инвестиционная модель, позволяющая получать стабильную доходность на стейблкоинах через DeFi-протоколы.",
                 "desc.para2": "Стратегия независима от движений крипторынка, так как капитал размещается в инструментах, генерирующих доход на самих стейблкоинах.",
                 "portfolio.title": "Структура портфеля",
                 "portfolio.distribution": "Распределение",
@@ -1681,6 +1747,13 @@
                 "howitworks.split": "Разделение на 3",
                 "howitworks.yield": "Доход 📈",
                 "howitworks.description": "Доход формируется за счет комиссий протоколов, процентных ставок и торговых операций в DeFi.",
+                "howitworks.capitalNote": "Начальная стоимость портфеля",
+                "howitworks.stablecoinsNote": "Конвертация в USDC / USDT",
+                "howitworks.splitNote": "Равномерное распределение между стратегиями",
+                "howitworks.hlpNote": "Комиссии с торговли perpetual-контрактами (Hyperliquid)",
+                "howitworks.pendleNote": "Фиксированная доходность на principal-токены",
+                "howitworks.stableLpNote": "Комиссии за свопы в пулах стейблкоинов",
+                "howitworks.yieldNote": "Совокупный доход из трёх источников",
                 "returns.title": "Ожидаемая доходность",
                 "returns.conservative": "Консервативный",
                 "returns.baseline": "Средний",
@@ -1726,7 +1799,7 @@
                 "steps.step5.desc": "Компаундируйте доход, реинвестируя его обратно в те же позиции",
                 "steps.step5.button": "Узнать больше",
                 "steps.step6.title": "Ежемесячная проверка",
-                "steps.step6.desc": "Еженедельно проверяйте позиции и убедитесь, что параметры стратегии оптимальны",
+                "steps.step6.desc": "Ежемесячно проверяйте позиции и убедитесь, что параметры стратегии оптимальны",
                 "steps.step6.button": "Советы по мониторингу",
                 "steps.tutorials": "Быстрые уроки и ресурсы",
                 "steps.tutorial1.name": "Гайд Pendle Finance",
@@ -1756,6 +1829,10 @@
                 "scenarios.stable": "✅ Стабильна (независима от BTC)",
                 "scenarios.flat": "✅ Плоская (нет корреляции)",
                 "scenarios.unaffected": "✅ Не затронута (доходы остаются стабильными)",
+                "scenarios.bearishNote": "Доходность стратегии остаётся ~11% годовых",
+                "scenarios.baselineNote": "Нейтральный рынок, тот же профиль доходности",
+                "scenarios.bullishNote": "Рост BTC, доход стратегии остаётся стабильным",
+                "scenarios.btcCurrent": "$70,000 (текущая цена)",
                 "scenarios.explanation": "Ключевой момент: Stable Yield Strategy обеспечивает стабильный доход независимо от направления рынка. Потоки доходов от комиссий, процентных ставок и торговых операций остаются стабильными даже во время волатильности.",
                 "scenarios.keyPoint": "Ключевой момент:",
                 "warnings.title": "Когда требуется перебалансировка",
@@ -1776,7 +1853,7 @@
                 "for.diversification.title": "Диверсификации портфеля",
                 "for.diversification.desc": "Некоррелированный источник дохода, уравновешивающий рискованные активы стабильным доходом",
                 "conclusion.title": "Готовы начать?",
-                "conclusion.text": "Stable Yield Strategy — фундаментальная модель пассивного DeFi-дохода. Она использует возможности DeFi без волатильности крипторынка. Следуйте пошаговому гайду выше для начала.",
+                "conclusion.text": "Стратегия стабильного дохода — фундаментальная модель пассивного DeFi-дохода. Она использует возможности DeFi без волатильности крипторынка. Следуйте пошаговому гайду выше для начала.",
                 "conclusion.button": "Начать сейчас",
                 "footer.disclaimer": "Эта стратегия только в информационных целях. Всегда проводите собственное исследование перед инвестированием.",
                 "footer.risk": "Стратегия несет риски протокола, стейблкоина и ликвидности. Результаты прошлого ≠ результатов в будущем."

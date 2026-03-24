@@ -92,6 +92,12 @@
             letter-spacing: -0.5px;
         }
 
+        html[lang="ru"] .logo {
+            font-size: clamp(13px, 3.2vw, 20px);
+            line-height: 1.2;
+            max-width: 72%;
+        }
+
         .lang-selector {
             display: flex;
             gap: 8px;
@@ -157,6 +163,14 @@
             letter-spacing: -1px;
             white-space: normal;
             text-align: center;
+        }
+
+        html[lang="ru"] .hero h1 {
+            font-size: clamp(22px, 5.5vw, 52px);
+            text-wrap: balance;
+            max-width: 22ch;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-subtitle {
@@ -1153,6 +1167,11 @@
                 max-width: 58%;
             }
 
+            html[lang="ru"] .logo {
+                font-size: clamp(12px, 3.2vw, 16px);
+                max-width: 70%;
+            }
+
             .lang-btn {
                 min-height: 44px;
                 min-width: 44px;
@@ -1167,6 +1186,11 @@
             .hero h1 {
                 font-size: clamp(24px, 7vw, 34px);
                 line-height: 1.15;
+            }
+
+            html[lang="ru"] .hero h1 {
+                font-size: clamp(20px, 5.5vw, 32px);
+                max-width: min(22ch, 94vw);
             }
 
             .hero-subtitle {
@@ -2122,9 +2146,9 @@
                 "footer.risk": "Strategy carries cryptocurrency and DeFi risks, including volatility and protocol risk. Past performance ≠ future results."
             },
             ru: {
-                "page.title": "Стратегия стейбл-доходности",
-                "header.logo": "Стратегия стейбл-доходности",
-                "hero.title": "Стратегия стейбл-доходности",
+                "page.title": "Стратегия стабильного дохода",
+                "header.logo": "Стратегия стабильного дохода",
+                "hero.title": "Стратегия стабильного дохода",
                 "hero.subtitle": "Доходность DeFi в стейблкоинах, компаунд в USD — без вложений в курс Bitcoin.",
                 "hero.apy": "APY",
                 "hero.riskValue": "Низкий",

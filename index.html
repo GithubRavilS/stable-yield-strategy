@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balanced BTC + DeFi Strategy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F1115">
+    <title>Stable Yield Strategy</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <style>
@@ -32,6 +33,43 @@
             color: var(--text-dark);
             background: var(--white);
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Horizontal scroll for wide tables on small screens */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
+            margin: 0;
+            border-radius: 8px;
+        }
+
+        .table-responsive table {
+            min-width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .table-responsive {
+                margin: 0 -4px;
+                padding-bottom: 6px;
+            }
+
+            .table-responsive::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .table-responsive::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.15);
+                border-radius: 4px;
+            }
         }
 
         /* ========== HEADER ========== */
@@ -172,11 +210,6 @@
             padding: 60px 24px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
         .section-title {
             font-size: clamp(28px, 6vw, 40px);
             font-weight: 700;
@@ -221,19 +254,85 @@
         }
 
         .description-visual {
-            background: linear-gradient(135deg, rgba(242, 153, 74, 0.15), rgba(242, 153, 74, 0.05));
-            border-radius: 12px;
-            padding: 40px;
+            background: linear-gradient(160deg, #151a23 0%, #1f2633 45%, #2a303d 100%);
+            border-radius: 16px;
+            padding: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 300px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(242, 153, 74, 0.28);
         }
-        .description-btc-img {
-            max-width: 140px;
-            height: auto;
-            object-fit: contain;
+        .crypto-visual {
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            position: relative;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(242, 153, 74, 0.28), transparent 45%),
+                radial-gradient(circle at 75% 70%, rgba(242, 153, 74, 0.18), transparent 52%),
+                linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
         }
+        .crypto-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(242,153,74,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(242,153,74,0.09) 1px, transparent 1px);
+            background-size: 26px 26px;
+            opacity: 0.3;
+        }
+        .crypto-coin {
+            position: absolute;
+            width: 118px;
+            height: 118px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #e8fff0, #27AE60 55%, #1e8449 100%);
+            border: 3px solid rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 18px 40px rgba(39, 174, 96, 0.35);
+        }
+        .crypto-coin .coin-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .crypto-coin .coin-dollar {
+            font-size: 46px;
+            font-weight: 900;
+        }
+        .crypto-coin .coin-tag {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.95;
+            margin-top: 4px;
+        }
+        .crypto-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #27AE60;
+            box-shadow: 0 0 12px rgba(39, 174, 96, 0.65);
+        }
+        .crypto-node.n1 { top: 22%; left: 18%; }
+        .crypto-node.n2 { top: 75%; left: 24%; }
+        .crypto-node.n3 { top: 20%; right: 20%; }
+        .crypto-node.n4 { top: 72%; right: 17%; }
 
         /* ========== PORTFOLIO STRUCTURE ========== */
         .portfolio-structure {
@@ -416,6 +515,57 @@
             color: var(--accent);
         }
 
+        .scenario-apr-note {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .scenario-breakdown {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-dark);
+            background: rgba(242, 153, 74, 0.08);
+            border: 1px solid rgba(242, 153, 74, 0.2);
+            border-radius: 8px;
+            padding: 12px 12px;
+        }
+
+        .scenario-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding-bottom: 6px;
+        }
+
+        .scenario-line:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .scenario-line-label {
+            color: var(--text-light);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .scenario-line-value {
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
         .calculator-section {
             background: var(--white);
             border-radius: 12px;
@@ -483,6 +633,14 @@
             font-size: 22px;
             font-weight: 700;
             color: var(--accent);
+        }
+
+        .result-hint {
+            font-size: 11px;
+            line-height: 1.35;
+            color: var(--text-light);
+            margin-top: 8px;
+            font-weight: 400;
         }
 
         .charts-grid {
@@ -954,40 +1112,6 @@
             line-height: 1.6;
         }
 
-        /* ========== CONCLUSION ========== */
-        .conclusion {
-            background: linear-gradient(135deg, #0F1115 0%, #1a1f2e 100%);
-            color: var(--white);
-            text-align: center;
-        }
-
-        .conclusion p {
-            font-size: 18px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 24px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 14px 32px;
-            background: var(--accent);
-            color: var(--white);
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            background: #c77d3a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(242, 153, 74, 0.3);
-        }
-
         /* ========== FOOTER ========== */
         footer {
             background: var(--primary);
@@ -1004,67 +1128,309 @@
         /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             section {
-                padding: 40px 16px;
+                padding: 40px max(16px, env(safe-area-inset-right)) 40px max(16px, env(safe-area-inset-left));
             }
 
             .section-title {
-                font-size: 28px;
+                font-size: clamp(22px, 6vw, 28px);
+                margin-bottom: 28px;
+                line-height: 1.2;
+                padding: 0 4px;
             }
 
-            .hero-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero h1 {
-                font-size: 26px;
-            }
-
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .protocols-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .section-subtitle {
+                font-size: 16px;
+                padding: 0 4px;
             }
 
             header {
-                padding: 12px 16px;
+                padding: 12px max(14px, env(safe-area-inset-right)) 12px max(14px, env(safe-area-inset-left));
+            }
+
+            .logo {
+                font-size: clamp(15px, 4vw, 18px);
+                line-height: 1.25;
+                max-width: 58%;
+            }
+
+            .lang-btn {
+                min-height: 44px;
+                min-width: 44px;
+                padding: 10px 14px;
             }
 
             .hero {
-                padding: 60px 16px;
+                padding: 56px max(16px, env(safe-area-inset-right)) 48px max(16px, env(safe-area-inset-left));
                 min-height: auto;
             }
-        }
 
-        @media (max-width: 480px) {
             .hero h1 {
-                font-size: clamp(18px, 5vw, 22px);
+                font-size: clamp(24px, 7vw, 34px);
+                line-height: 1.15;
             }
 
             .hero-subtitle {
-                font-size: 16px;
+                font-size: clamp(15px, 3.8vw, 18px);
+                margin-bottom: 28px;
             }
 
             .hero-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .section-title {
-                font-size: 24px;
-            }
-
-            .protocols-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .flow-diagram {
-                flex-direction: column;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 12px;
+                max-width: 100%;
+                margin-top: 28px;
+            }
+
+            .hero-card {
+                padding: 18px 12px;
+            }
+
+            .hero-card-value {
+                font-size: clamp(22px, 5.5vw, 26px);
+            }
+
+            .hero-card-label {
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+            .description-content {
+                gap: 28px;
+            }
+
+            .description-text {
+                font-size: 15px;
+            }
+
+            .description-visual {
+                min-height: 240px;
+                padding: 20px;
+            }
+
+            .crypto-visual {
+                height: 200px;
+            }
+
+            .crypto-coin {
+                width: 96px;
+                height: 96px;
+                font-size: 42px;
+            }
+
+            .portfolio-grid {
+                gap: 28px;
+            }
+
+            .charts-container {
+                height: 260px;
+                max-width: 100%;
+            }
+
+            .table-responsive .portfolio-table {
+                min-width: 340px;
+            }
+
+            .table-responsive .risk-table,
+            .table-responsive .scenarios-table {
+                min-width: 520px;
+            }
+
+            .portfolio-table th,
+            .portfolio-table td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .percentage-badge {
+                padding: 3px 8px;
+                font-size: 12px;
+            }
+
+            .flow-card {
+                min-width: 0;
+                width: 100%;
+                max-width: 420px;
+                padding: 16px 18px;
+            }
+
+            .flow-branches {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .flow-branch-card {
+                min-width: 0;
+                flex: none;
+                width: 100%;
+            }
+
+            .flow-converge {
+                max-width: 100%;
+            }
+
+            .flow-description {
+                padding: 18px 16px;
+                font-size: 14px;
+            }
+
+            .scenario-cards {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .scenario-value {
+                font-size: clamp(28px, 9vw, 34px);
+            }
+
+            .calculator-section {
+                padding: 22px 16px;
+                border-radius: 10px;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .input-group input[type="number"],
+            .input-group input[type="text"] {
+                font-size: 16px;
+                min-height: 48px;
+            }
+
+            .calculator-results {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .result-item {
+                padding: 12px 10px;
+            }
+
+            .result-value {
+                font-size: clamp(17px, 4.5vw, 20px);
+            }
+
+            .result-label {
+                font-size: 11px;
+                line-height: 1.3;
+            }
+
+            .result-hint {
+                font-size: 10px;
             }
 
             .charts-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .chart-container {
+                height: 320px;
+                padding: 16px;
+            }
+
+            .chart-title {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .risk-table th,
+            .risk-table td,
+            .scenarios-table th,
+            .scenarios-table td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .risk-table td:last-child,
+            .scenarios-table td:last-child {
+                min-width: 140px;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .step-card {
+                padding: 22px 18px;
+            }
+
+            .protocols-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .scenarios-container {
+                padding: 20px 16px;
+            }
+
+            .scenarios-visual {
+                flex-direction: column;
+                padding: 16px;
+            }
+
+            .scenario-pill {
+                min-width: 0;
+                max-width: none;
+                width: 100%;
+            }
+
+            .warnings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .for-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .tutorials-section {
+                padding: 22px 16px;
+            }
+
+            .tutorials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 32px max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-cards {
+                gap: 10px;
+            }
+
+            .hero-card {
+                padding: 14px 10px;
+            }
+
+            .calculator-results {
+                grid-template-columns: 1fr;
+            }
+
+            .result-value {
+                font-size: 18px;
+            }
+
+            .chart-container {
+                height: 280px;
+                padding: 12px 8px;
+            }
+
+            .scenario-breakdown {
+                padding: 10px;
+            }
+
+            .scenario-line {
+                flex-wrap: wrap;
+            }
+
+            .scenario-line-label {
+                font-size: 12px;
             }
         }
 
@@ -1089,7 +1455,7 @@
 <body class="scroll-smooth">
     <!-- HEADER -->
     <header>
-        <div class="logo" data-i18n="header.logo">₿ Balanced Strategy</div>
+        <div class="logo" data-i18n="header.logo">Stable Yield Strategy</div>
         <div class="lang-selector">
             <button class="lang-btn active" data-lang="en">EN</button>
             <button class="lang-btn" data-lang="ru">РУ</button>
@@ -1099,20 +1465,20 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
-            <h1 data-i18n="hero.title">Balanced BTC + DeFi Strategy</h1>
-            <p class="hero-subtitle" data-i18n="hero.subtitle">Balanced strategy combining Bitcoin accumulation and DeFi yield</p>
+            <h1 data-i18n="hero.title">Stable Yield Strategy</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Stable DeFi yield compounded in USD — no exposure to Bitcoin price.</p>
             
             <div class="hero-cards">
                 <div class="hero-card">
-                    <div class="hero-card-value">18–34%</div>
+                    <div class="hero-card-value">5–16%</div>
                     <div class="hero-card-label" data-i18n="hero.apy">APY</div>
                 </div>
                 <div class="hero-card">
-                    <div class="hero-card-value" data-i18n="hero.riskValue">Medium</div>
+                    <div class="hero-card-value" data-i18n="hero.riskValue">Low</div>
                     <div class="hero-card-label" data-i18n="hero.risk">Risk Level</div>
                 </div>
                 <div class="hero-card">
-                    <div class="hero-card-value" data-i18n="hero.horizonValue">3y+</div>
+                    <div class="hero-card-value" data-i18n="hero.horizonValue">6 mo+</div>
                     <div class="hero-card-label" data-i18n="hero.horizon">Time Horizon</div>
                 </div>
                 <div class="hero-card">
@@ -1128,11 +1494,23 @@
         <div class="container">
             <div class="description-content">
                 <div class="description-text">
-                    <p data-i18n="desc.para1">Balanced BTC + DeFi Strategy is a balanced investment model that combines Bitcoin accumulation with DeFi yield.</p>
-                    <p data-i18n="desc.para2">Capital is allocated between BTC, stable strategies, and liquidity pools, allowing you to participate in market growth while earning yield.</p>
+                    <p data-i18n="desc.para1">Stablecoin yield in DeFi — principal and income stay in USD-pegged stables.</p>
+                    <p data-i18n="desc.para2">Weights and mechanics are laid out in the sections below.</p>
                 </div>
                 <div class="description-visual">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="Bitcoin" class="description-btc-img" width="120" height="120">
+                    <div class="crypto-visual" aria-label="Stable yield USD visual">
+                        <div class="crypto-grid"></div>
+                        <div class="crypto-coin">
+                            <div class="coin-inner">
+                                <span class="coin-dollar">$</span>
+                                <span class="coin-tag" data-i18n="desc.coinTag">Stable</span>
+                            </div>
+                        </div>
+                        <div class="crypto-node n1"></div>
+                        <div class="crypto-node n2"></div>
+                        <div class="crypto-node n3"></div>
+                        <div class="crypto-node n4"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1150,6 +1528,7 @@
                 </div>
                 <div>
                     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;" data-i18n="portfolio.distribution">Distribution</h3>
+                    <div class="table-responsive">
                     <table class="portfolio-table">
                         <thead>
                             <tr>
@@ -1161,25 +1540,26 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong data-i18n="portfolio.stableStrategies">Stable strategies</strong></td>
-                                <td><span class="percentage-badge">50%</span></td>
-                                <td>10–15%</td>
-                                <td data-i18n="portfolio.defiYield">DeFi yield</td>
+                                <td><strong data-i18n="portfolio.hlpName">Hyperliquidity provider (HLP)</strong></td>
+                                <td><span class="percentage-badge">33%</span></td>
+                                <td data-i18n="portfolio.hlpYieldRange">6–20%</td>
+                                <td data-i18n="portfolio.hlpIncome">HLP vault yield</td>
                             </tr>
                             <tr>
-                                <td><strong data-i18n="portfolio.btcAccumulation">BTC accumulation</strong></td>
-                                <td><span class="percentage-badge">25%</span></td>
-                                <td data-i18n="portfolio.marketDependent">market dependent</td>
-                                <td data-i18n="portfolio.assetGrowth">asset growth</td>
+                                <td><strong data-i18n="portfolio.pendleName">Pendle Finance</strong></td>
+                                <td><span class="percentage-badge">33%</span></td>
+                                <td data-i18n="portfolio.pendleYieldRange">6–20%</td>
+                                <td data-i18n="portfolio.pendleIncome">Fixed / PT yield</td>
                             </tr>
                             <tr>
-                                <td><strong data-i18n="portfolio.liquidityPools">Liquidity pools</strong></td>
-                                <td><span class="percentage-badge">25%</span></td>
-                                <td>20–40%</td>
-                                <td data-i18n="portfolio.fees">Pool fees</td>
+                                <td><strong data-i18n="portfolio.stableLpName">Stable liquidity pools</strong></td>
+                                <td><span class="percentage-badge">34%</span></td>
+                                <td data-i18n="portfolio.stableLpYieldRange">3–9%</td>
+                                <td data-i18n="portfolio.stableLpIncome">LP fees on stables</td>
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1198,21 +1578,21 @@
                 <div class="flow-arrow">↓</div>
                 <div class="flow-card" data-i18n="howitworks.split">
                     Split capital
-                    <span data-i18n="howitworks.splitNote">50% stable / 25% BTC / 25% LP</span>
+                    <span data-i18n="howitworks.splitNote">100% stable strategies — 33% / 33% / 34%</span>
                 </div>
                 <div class="flow-arrow">↓</div>
                 <div class="flow-branches">
                     <div class="flow-card flow-branch-card">
-                        <span data-i18n="howitworks.stable50">Stable strategies (50%)</span>
-                        <span data-i18n="howitworks.stable50Note">Yield on stablecoins</span>
+                        <span data-i18n="howitworks.branchHlp">Hyperliquidity provider (HLP)</span>
+                        <span data-i18n="howitworks.branchHlpNote">Hyperliquid — vault allocation</span>
                     </div>
                     <div class="flow-card flow-branch-card">
-                        <span data-i18n="howitworks.btc25">BTC accumulation (25%)</span>
-                        <span data-i18n="howitworks.btc25Note">Long-term BTC holding</span>
+                        <span data-i18n="howitworks.branchPendle">Pendle Finance</span>
+                        <span data-i18n="howitworks.branchPendleNote">Tokenized yield &amp; fixed APY strategies</span>
                     </div>
                     <div class="flow-card flow-branch-card">
-                        <span data-i18n="howitworks.lp25">Liquidity pools (25%)</span>
-                        <span data-i18n="howitworks.lp25Note">Trading fees</span>
+                        <span data-i18n="howitworks.branchStableLp">Stable LPs</span>
+                        <span data-i18n="howitworks.branchStableLpNote">Stablecoin pairs — fees &amp; incentives</span>
                     </div>
                 </div>
                 <div class="flow-converge">
@@ -1225,12 +1605,12 @@
                 <div class="flow-arrow">↓</div>
                 <div class="flow-card flow-card-yield" data-i18n="howitworks.yield">
                     Yield 📈
-                    <span data-i18n="howitworks.yieldNote">Combined income from DeFi + BTC growth</span>
+                    <span data-i18n="howitworks.yieldNote">USD-stable yield compounded across three venues</span>
                 </div>
             </div>
 
             <div class="flow-description" data-i18n="howitworks.description">
-                The strategy combines BTC growth with DeFi yield.
+                Three channels converge into one USD-stable cash flow.
             </div>
         </div>
     </section>
@@ -1243,15 +1623,33 @@
             <div class="scenario-cards">
                 <div class="scenario-card">
                     <div class="scenario-label" data-i18n="returns.conservative">Conservative</div>
-                    <div class="scenario-value">18% APY</div>
+                    <div class="scenario-value">5% APY</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-apr-note" data-i18n="returns.scenarioAprNote">Estimated annual yield (APR) per portfolio segment</div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineHlp">HLP (Hyperliquid)</span><span class="scenario-line-value">6%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.linePendle">Pendle Finance</span><span class="scenario-line-value">6%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineStableLp">Stable LPs</span><span class="scenario-line-value">3%</span></div>
+                    </div>
                 </div>
                 <div class="scenario-card">
                     <div class="scenario-label" data-i18n="returns.baseline">Baseline</div>
-                    <div class="scenario-value">26% APY</div>
+                    <div class="scenario-value">11% APY</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-apr-note" data-i18n="returns.scenarioAprNote">Estimated annual yield (APR) per portfolio segment</div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineHlp">HLP (Hyperliquid)</span><span class="scenario-line-value">13%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.linePendle">Pendle Finance</span><span class="scenario-line-value">13%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineStableLp">Stable LPs</span><span class="scenario-line-value">6%</span></div>
+                    </div>
                 </div>
                 <div class="scenario-card">
                     <div class="scenario-label" data-i18n="returns.optimistic">Optimistic</div>
-                    <div class="scenario-value">34% APY</div>
+                    <div class="scenario-value">16% APY</div>
+                    <div class="scenario-breakdown">
+                        <div class="scenario-apr-note" data-i18n="returns.scenarioAprNote">Estimated annual yield (APR) per portfolio segment</div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineHlp">HLP (Hyperliquid)</span><span class="scenario-line-value">20%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.linePendle">Pendle Finance</span><span class="scenario-line-value">20%</span></div>
+                        <div class="scenario-line"><span class="scenario-line-label" data-i18n="returns.lineStableLp">Stable LPs</span><span class="scenario-line-value">9%</span></div>
+                    </div>
                 </div>
             </div>
 
@@ -1266,7 +1664,7 @@
                     </div>
                     <div class="input-group">
                         <label data-i18n="returns.months">Investment Period (months)</label>
-                        <input type="number" id="investMonths" value="12" min="6" max="120" step="1">
+                        <input type="number" id="investMonths" value="12" min="1" max="360" step="1">
                     </div>
                 </div>
 
@@ -1284,7 +1682,7 @@
                         <div class="result-value" id="monthlyIncome">$92</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-label" data-i18n="returns.roi">ROI</div>
+                        <div class="result-label" data-i18n="returns.roi">APY</div>
                         <div class="result-value" id="totalROI">11.0%</div>
                     </div>
                 </div>
@@ -1311,6 +1709,7 @@
             <div class="risk-content">
                 <div class="risk-analysis-block">
                     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;" data-i18n="risk.analysis">Risk Analysis</h3>
+                    <div class="table-responsive">
                     <table class="risk-table">
                         <thead>
                             <tr>
@@ -1321,22 +1720,28 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td data-i18n="risk.btcVolatility">BTC volatility</td>
-                                <td><span class="risk-level-medium" data-i18n="risk.medium">Medium</span></td>
-                                <td data-i18n="risk.btcVolatilityComment">Depends on BTC market price</td>
-                            </tr>
-                            <tr>
-                                <td data-i18n="risk.liquidation">Liquidation risk</td>
+                                <td data-i18n="risk.stableDepeg">Stablecoin / depeg risk</td>
                                 <td><span class="risk-level-low" data-i18n="risk.low">Low</span></td>
-                                <td data-i18n="risk.liquidationComment">No leverage, no liquidation risk</td>
+                                <td data-i18n="risk.stableDepegComment">Only top-tier, liquid USD stables — no exposure to obscure or experimental pegs</td>
                             </tr>
                             <tr>
-                                <td data-i18n="risk.protocol">Protocol Risk</td>
+                                <td data-i18n="risk.protocol">Protocol, smart contract &amp; liquidity risk</td>
                                 <td><span class="risk-level-medium" data-i18n="risk.medium">Medium</span></td>
-                                <td data-i18n="risk.protocolComment">Depends on protocol security</td>
+                                <td data-i18n="risk.protocolCommentStable">Audits and liquidity depth reduce but do not remove exploit, upgrade, or pool-drain scenarios</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="risk.yieldCompression">Yield &amp; incentive compression</td>
+                                <td><span class="risk-level-medium" data-i18n="risk.medium">Medium</span></td>
+                                <td data-i18n="risk.yieldCompressionComment">APY can fall when funding, fees, or rewards decline versus assumptions</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="risk.operational">Operational &amp; bridge risk</td>
+                                <td><span class="risk-level-low" data-i18n="risk.low">Low</span></td>
+                                <td data-i18n="risk.operationalComment">Self-custody, wrong addresses, bridge delays, or chain congestion can affect timing and execution</td>
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <div class="risk-indicator">
@@ -1356,30 +1761,30 @@
             <div class="steps-grid">
                 <div class="step-card">
                     <div class="step-number">1</div>
-                    <h3 class="step-title" data-i18n="steps.step1.title">Buy BTC and USDC</h3>
-                    <p class="step-description" data-i18n="steps.step1.desc">Purchase BTC and stablecoins on an exchange or via Jumper</p>
+                    <h3 class="step-title" data-i18n="steps.step1.title">Fund with stables</h3>
+                    <p class="step-description" data-i18n="steps.step1.desc">Deposit USDC / USDT (or bridge via Jumper) to your wallet</p>
                     <a href="https://jumper.exchange" target="_blank" class="step-link" data-i18n="steps.step1.button">Jumper.exchange →</a>
                 </div>
 
                 <div class="step-card">
                     <div class="step-number">2</div>
-                    <h3 class="step-title" data-i18n="steps.step2.title">50% to stable strategies</h3>
-                    <p class="step-description" data-i18n="steps.step2.desc">Allocate 50% of capital to stable yield (use Strategy 1)</p>
-                    <a href="index.html" class="step-link" data-i18n="steps.step2.button">Strategy 1 →</a>
+                    <h3 class="step-title" data-i18n="steps.step2.title">33% — HLP</h3>
+                    <p class="step-description" data-i18n="steps.step2.desc">Allocate to the Hyperliquid vault per playbook</p>
+                    <a href="https://hyperliquid.xyz" target="_blank" class="step-link" data-i18n="steps.step2.button">Hyperliquid →</a>
                 </div>
 
                 <div class="step-card">
                     <div class="step-number">3</div>
-                    <h3 class="step-title" data-i18n="steps.step3.title">25% buy BTC</h3>
-                    <p class="step-description" data-i18n="steps.step3.desc">Hold 25% in Bitcoin for long-term accumulation</p>
-                    <span class="step-link" style="cursor:default; opacity:0.9;">—</span>
+                    <h3 class="step-title" data-i18n="steps.step3.title">33% — Pendle</h3>
+                    <p class="step-description" data-i18n="steps.step3.desc">Deploy into Pendle fixed or yield strategies on stables</p>
+                    <a href="https://pendle.finance" target="_blank" class="step-link" data-i18n="steps.step3.button">Pendle →</a>
                 </div>
 
                 <div class="step-card">
                     <div class="step-number">4</div>
-                    <h3 class="step-title" data-i18n="steps.step4.title">25% in liquidity pools</h3>
-                    <p class="step-description" data-i18n="steps.step4.desc">Place 25% in Uniswap or other LP for trading fees</p>
-                    <a href="https://app.uniswap.org" target="_blank" class="step-link" data-i18n="steps.step4.button">Open Uniswap →</a>
+                    <h3 class="step-title" data-i18n="steps.step4.title">34% — stable LPs</h3>
+                    <p class="step-description" data-i18n="steps.step4.desc">Provide liquidity on stable pairs (e.g. Uniswap) for fees</p>
+                    <a href="https://githubravils.github.io/Defi-Labs-Navigator/" id="stepStableLpLink" target="_blank" rel="noopener noreferrer" class="step-link" data-i18n="steps.step4.button">Navigator →</a>
                 </div>
             </div>
         </div>
@@ -1394,7 +1799,7 @@
                 <div class="protocol-card">
                     <div class="protocol-logo">🔀</div>
                     <h3 class="protocol-name">Jumper.exchange</h3>
-                    <p class="protocol-desc" data-i18n="protocols.jumper">Buy BTC and swap assets across chains</p>
+                    <p class="protocol-desc" data-i18n="protocols.jumper">Bridge and swap stablecoins across chains</p>
                     <a href="https://jumper.exchange" target="_blank" class="protocol-link" data-i18n="protocols.visit">Visit Site →</a>
                 </div>
 
@@ -1413,10 +1818,10 @@
                 </div>
 
                 <div class="protocol-card">
-                    <div class="protocol-logo">🦄</div>
-                    <h3 class="protocol-name">Uniswap</h3>
-                    <p class="protocol-desc" data-i18n="protocols.uniswap">Liquidity pools and trading fees</p>
-                    <a href="https://uniswap.org" target="_blank" class="protocol-link" data-i18n="protocols.visit">Visit Site →</a>
+                    <div class="protocol-logo" aria-hidden="true">🔬</div>
+                    <h3 class="protocol-name" data-i18n="protocols.navigatorName">DeFi Labs Navigator</h3>
+                    <p class="protocol-desc" data-i18n="protocols.navigator">Lab hub: experiments, tools, and DeFi directions in one navigator</p>
+                    <a href="https://githubravils.github.io/Defi-Labs-Navigator/" id="protocolNavigatorLink" target="_blank" rel="noopener noreferrer" class="protocol-link" data-i18n="protocols.visit">Visit Site →</a>
                 </div>
             </div>
         </div>
@@ -1434,20 +1839,21 @@
                     <div class="scenario-pill">
                         <div class="scenario-pill-label" data-i18n="scenarios.bearish">Bearish</div>
                         <div class="scenario-pill-value">BTC $35K</div>
-                        <div class="scenario-pill-caption" data-i18n="scenarios.bearishNote">DeFi yield partially compensates decline</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.pillUnified">Not tied to BTC spot; return is in stables only</div>
                     </div>
                     <div class="scenario-pill">
                         <div class="scenario-pill-label" data-i18n="scenarios.baseline">Baseline</div>
                         <div class="scenario-pill-value">BTC $70K</div>
-                        <div class="scenario-pill-caption" data-i18n="scenarios.baselineNote">Stable balance of yield</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.pillUnified">Not tied to BTC spot; return is in stables only</div>
                     </div>
                     <div class="scenario-pill">
                         <div class="scenario-pill-label" data-i18n="scenarios.bullish">Bullish</div>
                         <div class="scenario-pill-value">BTC $120K</div>
-                        <div class="scenario-pill-caption" data-i18n="scenarios.bullishNote">BTC growth + DeFi yield</div>
+                        <div class="scenario-pill-caption" data-i18n="scenarios.pillUnified">Not tied to BTC spot; return is in stables only</div>
                     </div>
                 </div>
 
+                <div class="table-responsive">
                 <table class="scenarios-table">
                     <thead>
                         <tr>
@@ -1461,28 +1867,27 @@
                         <tr>
                             <td data-i18n="scenarios.bearish"><strong>Bearish</strong></td>
                             <td>$35,000</td>
-                            <td><span class="risk-level-low">16% APY</span></td>
-                            <td data-i18n="scenarios.bearishTable">Partial compensation via DeFi</td>
+                            <td><span class="risk-level-low" data-i18n="scenarios.strategyReturnRange">5–16% APY</span></td>
+                            <td data-i18n="scenarios.rowNote">Strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only</td>
                         </tr>
                         <tr>
                             <td data-i18n="scenarios.baseline"><strong>Baseline</strong></td>
-                            <td data-i18n="scenarios.btcCurrent">$70,000 (Current)</td>
-                            <td><span class="risk-level-low">27% APY</span></td>
-                            <td data-i18n="scenarios.baselineTable">Balanced growth</td>
+                            <td>$70,000</td>
+                            <td><span class="risk-level-low" data-i18n="scenarios.strategyReturnRange">5–16% APY</span></td>
+                            <td data-i18n="scenarios.rowNote">Strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only</td>
                         </tr>
                         <tr>
                             <td data-i18n="scenarios.bullish"><strong>Bullish</strong></td>
                             <td>$120,000</td>
-                            <td><span class="risk-level-low">34% APY</span></td>
-                            <td data-i18n="scenarios.bullishTable">BTC + DeFi yield</td>
+                            <td><span class="risk-level-low" data-i18n="scenarios.strategyReturnRange">5–16% APY</span></td>
+                            <td data-i18n="scenarios.rowNote">Strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only</td>
                         </tr>
                     </tbody>
                 </table>
+                </div>
 
                 <div style="margin-top: 24px; padding: 16px; background: #FFF8F0; border-radius: 8px; text-align: center;">
-                    <p style="font-size: 14px; color: var(--text-light);" data-i18n="scenarios.explanation">
-                        <strong data-i18n="scenarios.keyPoint">Key Point:</strong> Balanced strategy combines BTC accumulation with DeFi yield across market cycles.
-                    </p>
+                    <p style="font-size: 14px; color: var(--text-light);" data-i18n="scenarios.explanation">Key point: strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only.</p>
                 </div>
             </div>
         </div>
@@ -1496,27 +1901,27 @@
             
             <div class="warnings-grid">
                 <div class="warning-card">
-                    <div class="warning-icon">⚠️</div>
-                    <div class="warning-title" data-i18n="warnings.btc25.title">BTC down more than 25% from entry</div>
-                    <div class="warning-desc" data-i18n="warnings.btc25.desc">Consider shifting more into stable strategies</div>
-                </div>
-
-                <div class="warning-card">
                     <div class="warning-icon">📉</div>
-                    <div class="warning-title" data-i18n="warnings.lp20.title">LP yield below 20%</div>
-                    <div class="warning-desc" data-i18n="warnings.lp20.desc">Reassess pool selection or allocation</div>
+                    <div class="warning-title" data-i18n="warnings.yieldDrop.title">Blended APY falls below your floor</div>
+                    <div class="warning-desc" data-i18n="warnings.yieldDrop.desc">Re-check HLP, Pendle and LP incentives vs. baseline scenario</div>
                 </div>
 
                 <div class="warning-card">
-                    <div class="warning-icon">📈</div>
-                    <div class="warning-title" data-i18n="warnings.better.title">More efficient strategies appear</div>
-                    <div class="warning-desc" data-i18n="warnings.better.desc">New protocols or pools may offer better risk-adjusted returns</div>
+                    <div class="warning-icon">📊</div>
+                    <div class="warning-title" data-i18n="warnings.hlpDrift.title">HLP vault parameters change</div>
+                    <div class="warning-desc" data-i18n="warnings.hlpDrift.desc">If HLP fee split, caps, or funding terms change materially, realign the HLP allocation to the target ~33% portfolio weight</div>
+                </div>
+
+                <div class="warning-card">
+                    <div class="warning-icon">📌</div>
+                    <div class="warning-title" data-i18n="warnings.stablePeg.title">Stablecoin peg monitoring</div>
+                    <div class="warning-desc" data-i18n="warnings.stablePeg.desc">Watch for unusual depeg or liquidity stress on issuers you use; rotate venues if quotes widen</div>
                 </div>
 
                 <div class="warning-card">
                     <div class="warning-icon">🔄</div>
-                    <div class="warning-title" data-i18n="warnings.protocol.title">Protocol logic changes</div>
-                    <div class="warning-desc" data-i18n="warnings.protocol.desc">Monitor protocol updates and adjust allocation if needed</div>
+                    <div class="warning-title" data-i18n="warnings.pendleRoll.title">Pendle maturity &amp; pool rotation</div>
+                    <div class="warning-desc" data-i18n="warnings.pendleRoll.desc">When PT/YT mature or a better stable pool appears, redeploy so the Pendle allocation stays near the target ~33%</div>
                 </div>
             </div>
         </div>
@@ -1535,9 +1940,9 @@
                 </div>
 
                 <div class="for-card">
-                    <div class="for-icon">₿</div>
-                    <h3 class="for-title" data-i18n="for.btcHolder.title">Long-term BTC holders</h3>
-                    <p class="for-desc" data-i18n="for.btcHolder.desc">Accumulate BTC while earning DeFi yield on the rest</p>
+                    <div class="for-icon">💵</div>
+                    <h3 class="for-title" data-i18n="for.btcHolder.title">USD-stable yield seekers</h3>
+                    <p class="for-desc" data-i18n="for.btcHolder.desc">Prioritize predictable income in stable terms without directional BTC exposure</p>
                 </div>
 
                 <div class="for-card">
@@ -1549,79 +1954,83 @@
         </div>
     </section>
 
-    <!-- CONCLUSION -->
-    <section class="conclusion">
-        <div class="container">
-            <h2 class="section-title" style="color: var(--white);" data-i18n="conclusion.title">Ready to Start?</h2>
-            
-            <p data-i18n="conclusion.text">
-                Balanced BTC + DeFi Strategy lets you accumulate Bitcoin and earn DeFi yield at the same time.
-            </p>
-
-            <button class="cta-button" data-i18n="conclusion.button" onclick="alert('Integration with your portfolio platform coming soon!')">Get Started Now</button>
-        </div>
-    </section>
-
     <!-- FOOTER -->
     <footer>
         <p data-i18n="footer.disclaimer">This strategy is for informational purposes. Always conduct your own research before investing.</p>
         <p data-i18n="footer.risk">Strategy carries cryptocurrency and DeFi risks, including volatility and protocol risk. Past performance ≠ future results.</p>
-        <p style="margin-top: 24px; font-size: 12px; color: rgba(255, 255, 255, 0.5);">© 2026 Balanced Strategy</p>
+        <p style="margin-top: 24px; font-size: 12px; color: rgba(255, 255, 255, 0.5);">© 2026 Stable Yield Strategy</p>
     </footer>
 
     <script>
         // ========== TRANSLATIONS ==========
         const translations = {
             en: {
-                "header.logo": "₿ Balanced Strategy",
-                "hero.title": "Balanced BTC + DeFi Strategy",
-                "hero.subtitle": "Balanced strategy combining Bitcoin accumulation and DeFi yield",
+                "page.title": "Stable Yield Strategy",
+                "header.logo": "Stable Yield Strategy",
+                "hero.title": "Stable Yield Strategy",
+                "hero.subtitle": "Stable DeFi yield compounded in USD — no exposure to Bitcoin price.",
                 "hero.apy": "APY",
-                "hero.riskValue": "Medium",
+                "hero.riskValue": "Low",
                 "hero.risk": "Risk Level",
                 "hero.horizon": "Time Horizon",
-                "hero.horizonValue": "3y+",
+                "hero.horizonValue": "6 mo+",
                 "hero.minimum": "Minimum",
-                "desc.para1": "Balanced BTC + DeFi Strategy is a balanced investment model that combines Bitcoin accumulation with DeFi yield.",
-                "desc.para2": "Capital is allocated between BTC, stable strategies, and liquidity pools, allowing you to participate in market growth while earning yield.",
+                "desc.coinTag": "Yield",
+                "desc.para1": "Stablecoin yield in DeFi — principal and income stay in USD-pegged stables.",
+                "desc.para2": "Weights and mechanics are laid out in the sections below.",
                 "portfolio.title": "Portfolio Structure",
                 "portfolio.distribution": "Distribution",
                 "portfolio.instrument": "Instrument",
                 "portfolio.share": "Share",
                 "portfolio.yield": "Yield",
                 "portfolio.type": "Income Type",
-                "portfolio.stableStrategies": "Stable strategies",
-                "portfolio.btcAccumulation": "BTC accumulation",
-                "portfolio.liquidityPools": "Liquidity pools",
-                "portfolio.defiYield": "DeFi yield",
-                "portfolio.marketDependent": "market dependent",
-                "portfolio.assetGrowth": "asset growth",
-                "portfolio.fees": "Pool fees",
+                "portfolio.hlpName": "Hyperliquidity provider (HLP)",
+                "portfolio.pendleName": "Pendle Finance",
+                "portfolio.stableLpName": "Stable liquidity pools",
+                "portfolio.hlpYieldRange": "6–20%",
+                "portfolio.pendleYieldRange": "6–20%",
+                "portfolio.stableLpYieldRange": "3–9%",
+                "portfolio.hlpIncome": "HLP vault yield",
+                "portfolio.pendleIncome": "Fixed / PT yield",
+                "portfolio.stableLpIncome": "LP fees on stables",
+                "portfolio.hlpShort": "HLP",
+                "portfolio.pendleShort": "Pendle",
+                "portfolio.stableLpShort": "Stable LP",
                 "howitworks.title": "How It Works",
                 "howitworks.capital": "Capital",
                 "howitworks.split": "Split capital",
                 "howitworks.yield": "Yield 📈",
-                "howitworks.description": "The strategy combines BTC growth with DeFi yield.",
+                "howitworks.description": "Three channels converge into one USD-stable cash flow.",
                 "howitworks.capitalNote": "Initial portfolio value",
-                "howitworks.splitNote": "50% stable / 25% BTC / 25% LP",
-                "howitworks.stable50": "Stable strategies (50%)",
-                "howitworks.stable50Note": "Yield on stablecoins",
-                "howitworks.btc25": "BTC accumulation (25%)",
-                "howitworks.btc25Note": "Long-term BTC holding",
-                "howitworks.lp25": "Liquidity pools (25%)",
-                "howitworks.lp25Note": "Trading fees",
-                "howitworks.yieldNote": "Combined income from DeFi + BTC growth",
+                "howitworks.splitNote": "100% stable strategies — 33% / 33% / 34%",
+                "howitworks.branchHlp": "Hyperliquidity provider (HLP)",
+                "howitworks.branchHlpNote": "Hyperliquid — vault allocation",
+                "howitworks.branchPendle": "Pendle Finance",
+                "howitworks.branchPendleNote": "Tokenized yield & fixed APY strategies",
+                "howitworks.branchStableLp": "Stable LPs",
+                "howitworks.branchStableLpNote": "Stablecoin pairs — fees & incentives",
+                "howitworks.yieldNote": "USD-stable yield compounded across three venues",
                 "returns.title": "Expected Returns",
                 "returns.conservative": "Conservative",
                 "returns.baseline": "Baseline",
                 "returns.optimistic": "Optimistic",
+                "returns.scenarioAprNote": "Estimated annual yield (APR) per portfolio segment",
+                "returns.lineHlp": "HLP (Hyperliquid)",
+                "returns.linePendle": "Pendle Finance",
+                "returns.lineStableLp": "Stable LPs",
+                "returns.tooltipGrowthStart": "Capital growth — start of period",
+                "returns.tooltipGrowthMonth": "Capital growth — month {m} of {n}",
+                "returns.tooltipIncomeMonth": "Monthly income — month {m} of {n}",
+                "returns.legendConservative": "Conservative (5% APY)",
+                "returns.legendBaseline": "Baseline (11% APY)",
+                "returns.legendOptimistic": "Optimistic (16% APY)",
                 "returns.calculator": "Investment Calculator",
                 "returns.initialAmount": "Initial Amount ($)",
                 "returns.months": "Investment Period (months)",
                 "returns.finalAmount": "Final Amount",
                 "returns.totalGain": "Total Gain",
-                "returns.monthlyIncome": "Monthly Income",
-                "returns.roi": "ROI",
+                "returns.monthlyIncome": "Average monthly income",
+                "returns.roi": "APY",
                 "returns.growthChart": "Capital Growth",
                 "returns.incomeChart": "Monthly Income",
                 "risk.title": "Risk Model",
@@ -1629,28 +2038,30 @@
                 "risk.type": "Risk Type",
                 "risk.level": "Level",
                 "risk.description": "Description",
-                "risk.btcVolatility": "BTC volatility",
-                "risk.btcVolatilityComment": "Depends on BTC market price",
-                "risk.liquidation": "Liquidation risk",
-                "risk.liquidationComment": "No leverage, no liquidation risk",
-                "risk.protocol": "Protocol Risk",
+                "risk.stableDepeg": "Stablecoin / depeg risk",
+                "risk.stableDepegComment": "Only top-tier, liquid USD stables — no exposure to obscure or experimental pegs",
+                "risk.protocol": "Protocol, smart contract & liquidity risk",
+                "risk.protocolCommentStable": "Audits and liquidity depth reduce but do not remove exploit, upgrade, or pool-drain scenarios",
+                "risk.yieldCompression": "Yield & incentive compression",
+                "risk.yieldCompressionComment": "APY can fall when funding, fees, or rewards decline versus assumptions",
+                "risk.operational": "Operational & bridge risk",
+                "risk.operationalComment": "Standard wallets and vetted bridges; residual risk from user error or congestion is limited with disciplined ops",
                 "risk.medium": "Medium",
-                "risk.protocolComment": "Depends on protocol security",
                 "risk.low": "Low",
                 "risk.high": "High",
                 "steps.title": "Step-by-Step Guide",
-                "steps.step1.title": "Buy BTC and USDC",
-                "steps.step1.desc": "Purchase BTC and stablecoins on an exchange or via Jumper",
+                "steps.step1.title": "Fund with stablecoins",
+                "steps.step1.desc": "Deposit USDC / USDT (or bridge via Jumper) to your wallet",
                 "steps.step1.button": "Jumper.exchange →",
-                "steps.step2.title": "50% to stable strategies",
-                "steps.step2.desc": "Allocate 50% of capital to stable yield (use Strategy 1)",
-                "steps.step2.button": "Strategy 1 →",
-                "steps.step3.title": "25% buy BTC",
-                "steps.step3.desc": "Hold 25% in Bitcoin for long-term accumulation",
-                "steps.step3.button": "—",
-                "steps.step4.title": "25% in liquidity pools",
-                "steps.step4.desc": "Place 25% in Uniswap or other LP for trading fees",
-                "steps.step4.button": "Open Uniswap →",
+                "steps.step2.title": "33% — HLP",
+                "steps.step2.desc": "Allocate to the Hyperliquid vault per playbook",
+                "steps.step2.button": "Hyperliquid →",
+                "steps.step3.title": "33% — Pendle",
+                "steps.step3.desc": "Deploy into Pendle fixed or yield strategies on stables",
+                "steps.step3.button": "Pendle →",
+                "steps.step4.title": "34% — stable LPs",
+                "steps.step4.desc": "Deploy the stable LP portion via Navigator",
+                "steps.step4.button": "Navigator →",
                 "steps.step5.title": "Enable Reinvestment",
                 "steps.step5.desc": "Compound your earnings by reinvesting yield back into the same positions",
                 "steps.step5.button": "Learn More",
@@ -1664,17 +2075,18 @@
                 "steps.tutorial2.name": "Hyperliquid HLP",
                 "steps.tutorial2.desc": "How to provide liquidity and earn trading commissions",
                 "steps.tutorial2.link": "Watch on YouTube →",
-                "steps.tutorial3.name": "Uniswap V3 LP",
-                "steps.tutorial3.desc": "Creating concentrated liquidity positions for maximum fees",
+                "steps.tutorial3.name": "DeFi Labs Navigator",
+                "steps.tutorial3.desc": "How to use the Navigator hub",
                 "steps.tutorial3.link": "Watch on YouTube →",
                 "protocols.title": "Protocols Used",
-                "protocols.jumper": "Buy BTC and swap assets across chains",
+                "protocols.jumper": "Bridge and swap stablecoins across chains",
                 "protocols.hyperliquid": "Stable yield and liquidity provision",
                 "protocols.pendle": "Yield tokenization and fixed yield",
-                "protocols.uniswap": "Liquidity pools and trading fees",
+                "protocols.navigatorName": "DeFi Labs Navigator",
+                "protocols.navigator": "Lab hub: experiments, tools, and DeFi directions in one navigator",
                 "protocols.visit": "Visit Site →",
                 "scenarios.title": "Market Scenarios",
-                "scenarios.subtitle": "Strategy Performance Under Different Bitcoin Prices",
+                "scenarios.subtitle": "Illustrative BTC prices — strategy yield does not depend on BTC",
                 "scenarios.scenario": "Market Scenario",
                 "scenarios.btcPrice": "BTC Price",
                 "scenarios.strategyReturn": "Strategy Return",
@@ -1685,88 +2097,97 @@
                 "scenarios.stable": "✅ Stable (independent of BTC)",
                 "scenarios.flat": "✅ Flat (no correlation)",
                 "scenarios.unaffected": "✅ Unaffected (yields remain consistent)",
-                "scenarios.bearishNote": "DeFi yield partially compensates decline",
-                "scenarios.baselineNote": "Stable balance of yield",
-                "scenarios.bullishNote": "BTC growth + DeFi yield",
-                "scenarios.bearishTable": "Partial compensation via DeFi",
-                "scenarios.baselineTable": "Balanced growth",
-                "scenarios.bullishTable": "BTC + DeFi yield",
-                "scenarios.btcCurrent": "$70,000 (Current)",
-                "scenarios.explanation": "Key Point: Balanced strategy combines BTC accumulation with DeFi yield across market cycles.",
-                "scenarios.keyPoint": "Key Point:",
+                "scenarios.pillUnified": "Not tied to BTC spot; return is in stables only",
+                "scenarios.rowNote": "Strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only",
+                "scenarios.strategyReturnRange": "5–16% APY",
+                "scenarios.explanation": "Key point: strategy is not BTC-linked; no BTC exposure — income accrues in stablecoins only.",
                 "warnings.title": "When to Rebalance",
                 "warnings.subtitle": "Monitor these conditions for strategy updates",
-                "warnings.btc25.title": "BTC down more than 25% from entry",
-                "warnings.btc25.desc": "Consider shifting more into stable strategies",
-                "warnings.lp20.title": "LP yield below 20%",
-                "warnings.lp20.desc": "Reassess pool selection or allocation",
-                "warnings.protocol.title": "Protocol logic changes",
-                "warnings.protocol.desc": "Monitor protocol updates and adjust allocation if needed",
-                "warnings.better.title": "More efficient strategies appear",
-                "warnings.better.desc": "New protocols or pools may offer better risk-adjusted returns",
+                "warnings.yieldDrop.title": "Blended APY falls below your floor",
+                "warnings.yieldDrop.desc": "Re-check HLP, Pendle and LP incentives vs. baseline scenario",
+                "warnings.hlpDrift.title": "HLP vault parameters change",
+                "warnings.hlpDrift.desc": "If HLP fee split, caps, or funding terms change materially, realign the HLP allocation to the target ~33% portfolio weight",
+                "warnings.stablePeg.title": "Stablecoin peg monitoring",
+                "warnings.stablePeg.desc": "Watch for unusual depeg or liquidity stress on issuers you use; rotate venues if quotes widen",
+                "warnings.pendleRoll.title": "Pendle maturity & pool rotation",
+                "warnings.pendleRoll.desc": "When PT/YT mature or a better stable pool appears, redeploy so the Pendle allocation stays near the target ~33%",
                 "for.title": "Who This Strategy Is For",
                 "for.moderate.title": "Moderate risk investors",
-                "for.moderate.desc": "Balance of growth and yield with acceptable volatility",
-                "for.btcHolder.title": "Long-term BTC holders",
-                "for.btcHolder.desc": "Accumulate BTC while earning DeFi yield on the rest",
+                "for.moderate.desc": "Prefer stable yield with defined protocol risks",
+                "for.btcHolder.title": "USD-stable yield seekers",
+                "for.btcHolder.desc": "Prioritize predictable income in stable terms without directional BTC exposure",
                 "for.noLeverage.title": "No leverage or liquidation risk",
                 "for.noLeverage.desc": "Strategy does not use borrowed capital or margin",
-                "conclusion.title": "Ready to Start?",
-                "conclusion.text": "Balanced BTC + DeFi Strategy lets you accumulate Bitcoin and earn DeFi yield at the same time.",
-                "conclusion.button": "Get Started Now",
                 "footer.disclaimer": "This strategy is for informational purposes. Always conduct your own research before investing.",
                 "footer.risk": "Strategy carries cryptocurrency and DeFi risks, including volatility and protocol risk. Past performance ≠ future results."
             },
             ru: {
-                "header.logo": "₿ Сбалансированная стратегия",
-                "hero.title": "Сбалансированная BTC + DeFi стратегия",
-                "hero.subtitle": "Сбалансированная стратегия накопления BTC и доходности DeFi",
+                "page.title": "Стратегия стейбл-доходности",
+                "header.logo": "Стратегия стейбл-доходности",
+                "hero.title": "Стратегия стейбл-доходности",
+                "hero.subtitle": "Доходность DeFi в стейблкоинах, компаунд в USD — без вложений в курс Bitcoin.",
                 "hero.apy": "APY",
-                "hero.riskValue": "Средний",
+                "hero.riskValue": "Низкий",
                 "hero.risk": "Уровень риска",
                 "hero.horizon": "Горизонт инвестиций",
-                "hero.horizonValue": "3 года+",
+                "hero.horizonValue": "6 мес+",
                 "hero.minimum": "Минимум",
-                "desc.para1": "Сбалансированная BTC + DeFi стратегия — модель портфеля, сочетающая накопление BTC и доходность DeFi.",
-                "desc.para2": "Капитал распределяется между BTC, стейбл-стратегиями и пулами ликвидности: рост рынка плюс доход.",
+                "desc.coinTag": "Доход",
+                "desc.para1": "Доходность в DeFi на стейблкоинах — капитал и доход остаются в привязке к USD.",
+                "desc.para2": "Веса и механика далее по странице.",
                 "portfolio.title": "Структура портфеля",
                 "portfolio.distribution": "Распределение",
                 "portfolio.instrument": "Инструмент",
                 "portfolio.share": "Доля",
                 "portfolio.yield": "Доходность",
                 "portfolio.type": "Тип дохода",
-                "portfolio.stableStrategies": "Стейбл-стратегии",
-                "portfolio.btcAccumulation": "Накопление BTC",
-                "portfolio.liquidityPools": "Пулы ликвидности",
-                "portfolio.defiYield": "Доходность DeFi",
-                "portfolio.marketDependent": "зависит от рынка",
-                "portfolio.assetGrowth": "рост актива",
-                "portfolio.fees": "Комиссии пула",
+                "portfolio.hlpName": "Hyperliquidity provider (HLP)",
+                "portfolio.pendleName": "Pendle Finance",
+                "portfolio.stableLpName": "Стейбл-пулы ликвидности",
+                "portfolio.hlpYieldRange": "6–20%",
+                "portfolio.pendleYieldRange": "6–20%",
+                "portfolio.stableLpYieldRange": "3–9%",
+                "portfolio.hlpIncome": "Доход HLP",
+                "portfolio.pendleIncome": "Фикс / PT доход",
+                "portfolio.stableLpIncome": "Комиссии LP на стейблах",
+                "portfolio.hlpShort": "HLP",
+                "portfolio.pendleShort": "Pendle",
+                "portfolio.stableLpShort": "Стейбл LP",
                 "howitworks.title": "Как это работает",
                 "howitworks.capital": "Капитал",
                 "howitworks.split": "Разделение капитала",
                 "howitworks.yield": "Доход 📈",
-                "howitworks.description": "Стратегия объединяет рост BTC и доходность DeFi.",
+                "howitworks.description": "Три направления сходятся в один USD стабильный кэшфлоу.",
                 "howitworks.capitalNote": "Начальная стоимость портфеля",
-                "howitworks.splitNote": "50% стейбл / 25% BTC / 25% LP",
-                "howitworks.stable50": "Стейбл-стратегии (50%)",
-                "howitworks.stable50Note": "Доходность на стейблкоинах",
-                "howitworks.btc25": "Накопление BTC (25%)",
-                "howitworks.btc25Note": "Долгосрочное накопление BTC",
-                "howitworks.lp25": "Пулы ликвидности (25%)",
-                "howitworks.lp25Note": "Комиссии за торговлю",
-                "howitworks.yieldNote": "Совокупный доход DeFi + рост BTC",
+                "howitworks.splitNote": "100% стейбл-стратегии — 33% / 33% / 34%",
+                "howitworks.branchHlp": "Hyperliquidity provider (HLP)",
+                "howitworks.branchHlpNote": "Hyperliquid — волт",
+                "howitworks.branchPendle": "Pendle Finance",
+                "howitworks.branchPendleNote": "Токенизированная доходность и фиксированная ставка (APY)",
+                "howitworks.branchStableLp": "Стейбл LP",
+                "howitworks.branchStableLpNote": "Пары стейблкоинов — комиссии и инцентивы",
+                "howitworks.yieldNote": "Доход в стейблах компаундится на трёх площадках",
                 "returns.title": "Ожидаемая доходность",
                 "returns.conservative": "Консервативный",
                 "returns.baseline": "Средний",
                 "returns.optimistic": "Оптимистичный",
+                "returns.scenarioAprNote": "Оценка годовой доходности (APR) по сегменту портфеля",
+                "returns.lineHlp": "HLP (Hyperliquid)",
+                "returns.linePendle": "Pendle Finance",
+                "returns.lineStableLp": "Стейбл LP",
+                "returns.tooltipGrowthStart": "Рост капитала — начало периода",
+                "returns.tooltipGrowthMonth": "Рост капитала — месяц {m} из {n}",
+                "returns.tooltipIncomeMonth": "Ежемесячный доход — месяц {m} из {n}",
+                "returns.legendConservative": "Консервативный (5% APY)",
+                "returns.legendBaseline": "Средний (11% APY)",
+                "returns.legendOptimistic": "Оптимистичный (16% APY)",
                 "returns.calculator": "Калькулятор инвестиций",
                 "returns.initialAmount": "Начальная сумма ($)",
                 "returns.months": "Срок инвестирования (месяцев)",
                 "returns.finalAmount": "Итоговая сумма",
                 "returns.totalGain": "Общий доход",
-                "returns.monthlyIncome": "Ежемесячный доход",
-                "returns.roi": "ROI",
+                "returns.monthlyIncome": "Средний ежемесячный доход",
+                "returns.roi": "APY",
                 "returns.growthChart": "Рост капитала",
                 "returns.incomeChart": "Ежемесячный доход",
                 "risk.title": "Модель риска",
@@ -1774,28 +2195,30 @@
                 "risk.type": "Тип риска",
                 "risk.level": "Уровень",
                 "risk.description": "Описание",
-                "risk.btcVolatility": "Волатильность BTC",
-                "risk.btcVolatilityComment": "Зависит от рыночной цены BTC",
-                "risk.liquidation": "Риск ликвидации",
-                "risk.liquidationComment": "Плечи нет, риска ликвидации нет",
-                "risk.protocol": "Риск протокола",
+                "risk.stableDepeg": "Риск стейблкоина / депега",
+                "risk.stableDepegComment": "Только ликвидные USD-стейблы первого эшелона — без экспозиции к малоизвестным или экспериментальным пегам",
+                "risk.protocol": "Риск протокола, смарт-контракта и ликвидности",
+                "risk.protocolCommentStable": "Аудиты и глубина ликвидности снижают, но не убирают риск эксплойта, апгрейда или вывода из пула",
+                "risk.yieldCompression": "Сжатие доходности и инцентивов",
+                "risk.yieldCompressionComment": "APY может снизиться при падении фандинга, комиссий или наград относительно ожиданий",
+                "risk.operational": "Операционный риск и мосты",
+                "risk.operationalComment": "Привычные кошельки и проверенные мосты; при дисциплине операций остаточный риск ошибки или перегрузки сети ограничен",
                 "risk.medium": "Средний",
-                "risk.protocolComment": "Зависит от безопасности протоколов",
                 "risk.low": "Низкий",
                 "risk.high": "Высокий",
                 "steps.title": "Пошаговая инструкция",
-                "steps.step1.title": "Купить BTC и USDC",
-                "steps.step1.desc": "Приобретите BTC и стейблкоины на бирже или через Jumper",
+                "steps.step1.title": "Пополнить кошелёк стейблкоинами",
+                "steps.step1.desc": "Внесите USDC / USDT (или бридж через Jumper) в кошелёк",
                 "steps.step1.button": "Jumper.exchange →",
-                "steps.step2.title": "50% в стейбл-стратегии",
-                "steps.step2.desc": "Направьте 50% капитала в стейбл-доходность (Стратегия 1)",
-                "steps.step2.button": "Стратегия 1 →",
-                "steps.step3.title": "25% купить BTC",
-                "steps.step3.desc": "Держите 25% в Bitcoin для долгосрочного накопления",
-                "steps.step3.button": "—",
-                "steps.step4.title": "25% в пулы ликвидности",
-                "steps.step4.desc": "Разместите 25% в Uniswap или других LP для комиссий",
-                "steps.step4.button": "Открыть Uniswap →",
+                "steps.step2.title": "33% — HLP",
+                "steps.step2.desc": "Аллокация в волт Hyperliquid по правилам",
+                "steps.step2.button": "Hyperliquid →",
+                "steps.step3.title": "33% — Pendle",
+                "steps.step3.desc": "Размещение в Pendle на стейблах",
+                "steps.step3.button": "Pendle →",
+                "steps.step4.title": "34% — стейбл LP",
+                "steps.step4.desc": "Сегмент стейбл LP через Navigator",
+                "steps.step4.button": "Navigator →",
                 "steps.step5.title": "Включить реинвестирование",
                 "steps.step5.desc": "Компаундируйте доход, реинвестируя его обратно в те же позиции",
                 "steps.step5.button": "Узнать больше",
@@ -1809,17 +2232,18 @@
                 "steps.tutorial2.name": "Hyperliquid HLP",
                 "steps.tutorial2.desc": "Как предоставлять ликвидность и зарабатывать на комиссиях",
                 "steps.tutorial2.link": "Смотреть на YouTube →",
-                "steps.tutorial3.name": "Uniswap V3 LP",
-                "steps.tutorial3.desc": "Создание сконцентрированных позиций ликвидности для максимальных комиссий",
+                "steps.tutorial3.name": "DeFi Labs Navigator",
+                "steps.tutorial3.desc": "Как пользоваться навигатором",
                 "steps.tutorial3.link": "Смотреть на YouTube →",
                 "protocols.title": "Используемые протоколы",
-                "protocols.jumper": "Покупка BTC и свопы активов между сетями",
+                "protocols.jumper": "Бридж и обмен стейблкоинов между сетями",
                 "protocols.hyperliquid": "Стейбл-доходность и ликвидность",
                 "protocols.pendle": "Токенизация доходности и фиксированный yield",
-                "protocols.uniswap": "Пулы ликвидности и торговые комиссии",
+                "protocols.navigatorName": "DeFi Labs Navigator",
+                "protocols.navigator": "Лабораторный хаб: тесты, инструменты и направления DeFi в одном навигаторе",
                 "protocols.visit": "Перейти на сайт →",
                 "scenarios.title": "Рыночные сценарии",
-                "scenarios.subtitle": "Производительность стратегии при разных ценах Bitcoin",
+                "scenarios.subtitle": "Условные уровни BTC — доход стратегии от курса BTC не зависит",
                 "scenarios.scenario": "Рыночный сценарий",
                 "scenarios.btcPrice": "Цена BTC",
                 "scenarios.strategyReturn": "Доход стратегии",
@@ -1830,35 +2254,27 @@
                 "scenarios.stable": "✅ Стабильна (независима от BTC)",
                 "scenarios.flat": "✅ Плоская (нет корреляции)",
                 "scenarios.unaffected": "✅ Не затронута (доходы остаются стабильными)",
-                "scenarios.bearishNote": "Доходность DeFi частично компенсирует падение",
-                "scenarios.baselineNote": "Стабильный баланс доходности",
-                "scenarios.bullishNote": "Рост BTC + доход DeFi",
-                "scenarios.bearishTable": "Частичная компенсация через DeFi",
-                "scenarios.baselineTable": "Сбалансированный рост",
-                "scenarios.bullishTable": "BTC + доход DeFi",
-                "scenarios.btcCurrent": "$70,000 (текущая цена)",
-                "scenarios.explanation": "Ключевой момент: сбалансированная стратегия сочетает накопление BTC и доходность DeFi в любых рыночных циклах.",
-                "scenarios.keyPoint": "Ключевой момент:",
+                "scenarios.pillUnified": "Не привязана к споту BTC; доход только в стейблкоинах",
+                "scenarios.rowNote": "Стратегия не зависит от BTC и не даёт экспозиции к BTC — доход начисляется в стейблкоинах",
+                "scenarios.strategyReturnRange": "5–16% годовых (APY)",
+                "scenarios.explanation": "Ключевой момент: стратегия не привязана к BTC и не даёт экспозиции к BTC — доход начисляется в стейблкоинах.",
                 "warnings.title": "Когда требуется перебалансировка",
                 "warnings.subtitle": "Следите за этими условиями для обновления стратегии",
-                "warnings.btc25.title": "BTC падает более чем на 25% от цены входа",
-                "warnings.btc25.desc": "Рассмотрите перелив части в стейбл-стратегии",
-                "warnings.lp20.title": "Доходность LP ниже 20%",
-                "warnings.lp20.desc": "Пересмотрите выбор пула или аллокацию",
-                "warnings.protocol.title": "Изменения в логике протокола",
-                "warnings.protocol.desc": "Следите за обновлениями протоколов и при необходимости скорректируйте распределение",
-                "warnings.better.title": "Появляются более эффективные стратегии",
-                "warnings.better.desc": "Новые протоколы или пулы могут дать лучшую доходность с учётом риска",
+                "warnings.yieldDrop.title": "Сводная APY ниже вашего порога",
+                "warnings.yieldDrop.desc": "Сверьте HLP, Pendle и LP с базовым сценарием",
+                "warnings.hlpDrift.title": "Меняются параметры волта HLP",
+                "warnings.hlpDrift.desc": "Если существенно меняются доля комиссий, лимиты или условия фандинга в HLP — скорректируйте долю сегмента HLP к целевым ~33% портфеля",
+                "warnings.stablePeg.title": "Контроль пега стейблкоинов",
+                "warnings.stablePeg.desc": "Следите за аномальным депегом или стрессом ликвидности у эмитентов; при расширении котировок меняйте площадки",
+                "warnings.pendleRoll.title": "Погашение в Pendle и смена пула",
+                "warnings.pendleRoll.desc": "Когда подходят сроки PT/YT или появляется более выгодный стейбл-пул — перенастройте позиции, чтобы сегмент Pendle оставался около целевых ~33%",
                 "for.title": "Для кого эта стратегия",
                 "for.moderate.title": "Инвесторы умеренного риска",
-                "for.moderate.desc": "Баланс роста и доходности при приемлемой волатильности",
-                "for.btcHolder.title": "Долгосрочные держатели BTC",
-                "for.btcHolder.desc": "Накопление BTC плюс доходность DeFi на остальное",
+                "for.moderate.desc": "Стейбл-доход с понятными протокольными рисками",
+                "for.btcHolder.title": "Кто ищет доход в USD-стейблах",
+                "for.btcHolder.desc": "Предсказуемый доход в стейблах без направленного экспозиции к BTC",
                 "for.noLeverage.title": "Без плечей и риска ликвидации",
                 "for.noLeverage.desc": "Стратегия не использует заёмный капитал и маржу",
-                "conclusion.title": "Готовы начать?",
-                "conclusion.text": "Сбалансированная BTC + DeFi стратегия позволяет одновременно накапливать BTC и получать доходность DeFi.",
-                "conclusion.button": "Начать сейчас",
                 "footer.disclaimer": "Эта стратегия только в информационных целях. Всегда проводите собственное исследование перед инвестированием.",
                 "footer.risk": "Стратегия несет риски криптовалют и DeFi, включая волатильность и риски протоколов. Результаты прошлого ≠ результатов в будущем."
             }
@@ -1870,6 +2286,9 @@
         function setLanguage(lang) {
             currentLanguage = lang;
             document.documentElement.lang = lang;
+            if (translations[lang] && translations[lang]['page.title']) {
+                document.title = translations[lang]['page.title'];
+            }
 
             // Update all elements with data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -1887,8 +2306,9 @@
                 }
             });
 
-            // Redraw charts to update labels
-            updateCharts();
+            // Redraw charts & refresh calculator (language affects labels, ~ vs ≈, legends)
+            createPortfolioChart();
+            calculateReturns();
         }
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1910,9 +2330,9 @@
             portfolioChartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: [translations[currentLanguage]['portfolio.stableStrategies'], translations[currentLanguage]['portfolio.btcAccumulation'], translations[currentLanguage]['portfolio.liquidityPools']],
+                    labels: [translations[currentLanguage]['portfolio.hlpShort'], translations[currentLanguage]['portfolio.pendleShort'], translations[currentLanguage]['portfolio.stableLpShort']],
                     datasets: [{
-                        data: [50, 25, 25],
+                        data: [33, 33, 34],
                         backgroundColor: ['#2F80ED', '#F2994A', '#27AE60'],
                         borderColor: ['#1a5fbb', '#c77d3a', '#1e8449'],
                         borderWidth: 2,
@@ -1937,94 +2357,174 @@
                                 const total = ctx.dataset.data.reduce(function(a, b) { return a + b; }, 0);
                                 return (total ? (value / total * 100).toFixed(0) : 0) + '%';
                             }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function () {
+                                    return translations[currentLanguage]['portfolio.title'] || 'Portfolio';
+                                },
+                                label: function (ctx) {
+                                    const name = ctx.label || '';
+                                    const val = ctx.parsed;
+                                    const pct = ctx.dataset.data[ctx.dataIndex];
+                                    return name + ': ' + pct + '% ' + (currentLanguage === 'ru' ? 'доли портфеля' : 'of portfolio');
+                                }
+                            }
                         }
                     }
                 }
             });
         }
 
-        function updateCharts() {
-            createPortfolioChart();
-            updateGrowthChart();
-            updateIncomeChart();
+        // ========== CALCULATOR (weighted APY + risk metrics) ==========
+        const PORTFOLIO_SCENARIOS = {
+            cons: { apy: 0.0498 },
+            base: { apy: 0.1062 },
+            opt:  { apy: 0.1626 }
+        };
+        /** DeFi Labs Navigator (stable LP step + protocols block). */
+        const NAVIGATOR_URL = 'https://githubravils.github.io/Defi-Labs-Navigator/';
+
+        function monthlyCompoundFromAPY(apyDecimal) {
+            return Math.pow(1 + apyDecimal, 1 / 12) - 1;
         }
 
-        // ========== CALCULATOR ==========
+        function tr(key) {
+            const pack = translations[currentLanguage] || translations.en;
+            return pack[key] || translations.en[key] || key;
+        }
+
         function calculateReturns() {
             const initialAmount = parseFloat(document.getElementById('initialAmount').value) || 10000;
-            const months = parseInt(document.getElementById('investMonths').value) || 12;
-            const monthlyRate = 0.26 / 12; // 26% APY baseline for growth
-            const monthlyYieldRate = 0.5 * (0.11/12) + 0.25 * (0.40/12); // 50% @ 11% + 25% @ 40%
+            const months = Math.max(1, parseInt(document.getElementById('investMonths').value, 10) || 12);
+            const baseline = PORTFOLIO_SCENARIOS.base;
+            const monthlyRate = monthlyCompoundFromAPY(baseline.apy);
 
             let currentAmount = initialAmount;
-            let firstMonthIncome = initialAmount * monthlyYieldRate;
             for (let i = 0; i < months; i++) {
-                currentAmount += currentAmount * monthlyRate;
+                currentAmount *= (1 + monthlyRate);
             }
 
             const finalAmount = currentAmount;
             const totalGain = finalAmount - initialAmount;
-            const roi = ((finalAmount - initialAmount) / initialAmount * 100).toFixed(1);
+            const avgMonthlyIncome = months > 0 ? totalGain / months : 0;
+            const apy = (Math.pow(finalAmount / initialAmount, 12 / months) - 1) * 100;
 
-            document.getElementById('finalAmount').textContent = '$' + finalAmount.toLocaleString(undefined, {maximumFractionDigits: 0});
-            document.getElementById('totalGain').textContent = '$' + totalGain.toLocaleString(undefined, {maximumFractionDigits: 0});
-            document.getElementById('monthlyIncome').textContent = '$' + Math.round(firstMonthIncome).toLocaleString(undefined, {maximumFractionDigits: 0});
-            document.getElementById('totalROI').textContent = roi + '%';
+            document.getElementById('finalAmount').textContent = '$' + finalAmount.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            document.getElementById('totalGain').textContent = '$' + totalGain.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            document.getElementById('monthlyIncome').textContent = '$' + Math.round(avgMonthlyIncome).toLocaleString(undefined, { maximumFractionDigits: 0 });
+            document.getElementById('totalROI').textContent = apy.toFixed(1) + '%';
 
+            window._chartMonths = months;
             updateGrowthChart(initialAmount, months);
             updateIncomeChart(initialAmount, months);
         }
 
         function updateGrowthChart(initialAmount = 10000, months = 12) {
-            const monthlyRate = 0.26 / 12;
             const labels = [];
-            const data = [];
-
-            let currentAmount = initialAmount;
             for (let i = 0; i <= months; i++) {
-                labels.push(i === 0 ? 'Start' : 'M' + i);
-                data.push(Math.round(currentAmount));
-                if (i < months) currentAmount += currentAmount * monthlyRate;
+                labels.push(i === 0 ? '0' : String(i));
+            }
+
+            function seriesForScenario(key) {
+                const cfg = PORTFOLIO_SCENARIOS[key];
+                const mRate = monthlyCompoundFromAPY(cfg.apy);
+                const out = [];
+                for (let t = 0; t <= months; t++) {
+                    const trend = initialAmount * Math.pow(1 + mRate, t);
+                    out.push(Math.round(trend));
+                }
+                return out;
             }
 
             const ctx = document.getElementById('growthChart');
-            if (growthChartInstance) {
-                growthChartInstance.destroy();
-            }
+            if (growthChartInstance) growthChartInstance.destroy();
 
             growthChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: currentLanguage === 'ru' ? 'Капитал' : 'Capital',
-                        data: data,
-                        borderColor: '#F2994A',
-                        backgroundColor: 'rgba(242, 153, 74, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 3,
-                        pointBackgroundColor: '#F2994A',
-                    }]
+                    datasets: [
+                        {
+                            label: tr('returns.legendConservative'),
+                            data: seriesForScenario('cons'),
+                            borderColor: '#2F80ED',
+                            backgroundColor: 'rgba(47, 128, 237, 0.06)',
+                            borderWidth: 2.5,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        },
+                        {
+                            label: tr('returns.legendBaseline'),
+                            data: seriesForScenario('base'),
+                            borderColor: '#F2994A',
+                            backgroundColor: 'rgba(242, 153, 74, 0.08)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        },
+                        {
+                            label: tr('returns.legendOptimistic'),
+                            data: seriesForScenario('opt'),
+                            borderColor: '#27AE60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.06)',
+                            borderWidth: 2.5,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        }
+                    ]
                 },
                 options: {
+                    interaction: { mode: 'index', intersect: false },
                     responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
                         legend: {
-                            labels: {
-                                font: { size: 12, family: "'Inter', sans-serif" }
-                            }
+                            position: 'bottom',
+                            reverse: true,
+                            labels: { font: { size: 11, family: "'Inter', sans-serif" }, boxWidth: 12 }
                         },
-                        datalabels: { display: false }
+                        datalabels: { display: false },
+                        tooltip: {
+                            itemSort: function (a, b) {
+                                return b.datasetIndex - a.datasetIndex;
+                            },
+                            callbacks: {
+                                title: function (items) {
+                                    const idx = items[0].dataIndex;
+                                    const total = window._chartMonths || months;
+                                    if (idx === 0) return tr('returns.tooltipGrowthStart');
+                                    return tr('returns.tooltipGrowthMonth').replace('{m}', String(idx)).replace('{n}', String(total));
+                                },
+                                label: function (ctx) {
+                                    const v = ctx.parsed.y;
+                                    return ctx.dataset.label + ': $' + Math.round(v).toLocaleString();
+                                }
+                            }
+                        }
                     },
                     scales: {
                         y: {
                             beginAtZero: false,
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return '$' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxTicksLimit: 14,
+                                callback: function (val) {
+                                    const l = String(val);
+                                    if (l === '0') return currentLanguage === 'ru' ? 'Старт' : 'Start';
+                                    return currentLanguage === 'ru' ? ('м ' + l) : ('M' + l);
                                 }
                             }
                         }
@@ -2034,54 +2534,109 @@
         }
 
         function updateIncomeChart(initialAmount = 10000, months = 12) {
-            const monthlyGrowthRate = 0.26 / 12;
-            const monthlyYieldRate = 0.5 * (0.11/12) + 0.25 * (0.40/12);
             const labels = [];
-            const data = [];
+            for (let i = 1; i <= months; i++) labels.push(String(i));
 
-            let currentAmount = initialAmount;
-            for (let i = 1; i <= months; i++) {
-                const monthlyIncome = currentAmount * monthlyYieldRate;
-                labels.push('M' + i);
-                data.push(Math.round(monthlyIncome));
-                currentAmount += currentAmount * monthlyGrowthRate;
+            function incomeSeries(key) {
+                const cfg = PORTFOLIO_SCENARIOS[key];
+                const mRate = monthlyCompoundFromAPY(cfg.apy);
+                const yRate = cfg.apy / 12;
+                const data = [];
+                let cap = initialAmount;
+                for (let m = 1; m <= months; m++) {
+                    const inc = cap * yRate;
+                    data.push(Math.round(inc));
+                    cap *= (1 + mRate);
+                }
+                return data;
             }
 
             const ctx = document.getElementById('incomeChart');
-            if (incomeChartInstance) {
-                incomeChartInstance.destroy();
-            }
+            if (incomeChartInstance) incomeChartInstance.destroy();
 
             incomeChartInstance = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: currentLanguage === 'ru' ? 'Месячный доход' : 'Monthly Income',
-                        data: data,
-                        backgroundColor: '#27AE60',
-                        borderColor: '#1e8449',
-                        borderWidth: 1,
-                        borderRadius: 6,
-                    }]
+                    datasets: [
+                        {
+                            label: tr('returns.legendConservative'),
+                            data: incomeSeries('cons'),
+                            borderColor: '#2F80ED',
+                            backgroundColor: 'rgba(47, 128, 237, 0.15)',
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        },
+                        {
+                            label: tr('returns.legendBaseline'),
+                            data: incomeSeries('base'),
+                            borderColor: '#F2994A',
+                            backgroundColor: 'rgba(242, 153, 74, 0.12)',
+                            borderWidth: 2.5,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        },
+                        {
+                            label: tr('returns.legendOptimistic'),
+                            data: incomeSeries('opt'),
+                            borderColor: '#27AE60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.12)',
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.45,
+                            pointRadius: 0,
+                            pointHitRadius: 6,
+                        }
+                    ]
                 },
                 options: {
+                    interaction: { mode: 'index', intersect: false },
                     responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
                         legend: {
-                            labels: {
-                                font: { size: 12, family: "'Inter', sans-serif" }
-                            }
+                            position: 'bottom',
+                            reverse: true,
+                            labels: { font: { size: 11, family: "'Inter', sans-serif" }, boxWidth: 12 }
                         },
-                        datalabels: { display: false }
+                        datalabels: { display: false },
+                        tooltip: {
+                            itemSort: function (a, b) {
+                                return b.datasetIndex - a.datasetIndex;
+                            },
+                            callbacks: {
+                                title: function (items) {
+                                    const idx = items[0].dataIndex + 1;
+                                    const total = window._chartMonths || months;
+                                    return tr('returns.tooltipIncomeMonth').replace('{m}', String(idx)).replace('{n}', String(total));
+                                },
+                                label: function (ctx) {
+                                    const v = ctx.parsed.y;
+                                    return ctx.dataset.label + ': $' + Math.round(v).toLocaleString();
+                                }
+                            }
+                        }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                callback: function(value) {
+                                callback: function (value) {
                                     return '$' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxTicksLimit: 14,
+                                callback: function (val) {
+                                    const l = String(val);
+                                    return currentLanguage === 'ru' ? ('м ' + l) : ('M' + l);
                                 }
                             }
                         }
@@ -2095,9 +2650,17 @@
         document.getElementById('investMonths').addEventListener('input', calculateReturns);
 
         // Initialize
+        function applyNavigatorLinks() {
+            const u = NAVIGATOR_URL;
+            const s = document.getElementById('stepStableLpLink');
+            const p = document.getElementById('protocolNavigatorLink');
+            if (s) s.href = u;
+            if (p) p.href = u;
+        }
+
         window.addEventListener('load', () => {
+            applyNavigatorLinks();
             setLanguage('en');
-            calculateReturns();
         });
     </script>
 </body>

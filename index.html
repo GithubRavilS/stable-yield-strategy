@@ -666,17 +666,33 @@
         .chart-container {
             background: var(--white);
             border-radius: 12px;
-            padding: 24px;
+            padding: 20px 24px 24px;
             box-shadow: var(--shadow-sm);
             position: relative;
-            height: 400px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: auto;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            flex: 1 1 auto;
+            min-height: 300px;
+            height: 300px;
+        }
+
+        .chart-canvas-wrap canvas {
+            display: block;
         }
 
         .chart-title {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: var(--text-dark);
+            flex-shrink: 0;
         }
 
         /* ========== RISK MODEL ========== */
@@ -1350,13 +1366,17 @@
             }
 
             .chart-container {
-                height: 320px;
-                padding: 16px;
+                padding: 12px 14px 14px;
+            }
+
+            .chart-canvas-wrap {
+                min-height: min(52vh, 320px);
+                height: min(52vh, 320px);
             }
 
             .chart-title {
                 font-size: 15px;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
             }
 
             .risk-table th,
@@ -1441,8 +1461,12 @@
             }
 
             .chart-container {
-                height: 280px;
-                padding: 12px 8px;
+                padding: 10px 12px 12px;
+            }
+
+            .chart-canvas-wrap {
+                min-height: min(48vh, 300px);
+                height: min(48vh, 300px);
             }
 
             .scenario-breakdown {
@@ -1714,11 +1738,15 @@
                 <div class="charts-grid">
                     <div class="chart-container">
                         <div class="chart-title" data-i18n="returns.growthChart">Capital Growth</div>
-                        <canvas id="growthChart"></canvas>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="growthChart"></canvas>
+                        </div>
                     </div>
                     <div class="chart-container">
                         <div class="chart-title" data-i18n="returns.incomeChart">Monthly Income</div>
-                        <canvas id="incomeChart"></canvas>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="incomeChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2345,6 +2373,10 @@
         if (typeof ChartDataLabels !== 'undefined') { Chart.register(ChartDataLabels); }
         let portfolioChartInstance, growthChartInstance, incomeChartInstance;
 
+        function isMobileChartLayout() {
+            return window.innerWidth <= 768;
+        }
+
         function createPortfolioChart() {
             const ctx = document.getElementById('portfolioChart');
             if (portfolioChartInstance) {
@@ -2464,6 +2496,8 @@
             const ctx = document.getElementById('growthChart');
             if (growthChartInstance) growthChartInstance.destroy();
 
+            const m = isMobileChartLayout();
+
             growthChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -2507,12 +2541,22 @@
                 options: {
                     interaction: { mode: 'index', intersect: false },
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: m ? { top: 0, right: 2, bottom: 0, left: 0 } : { top: 8, right: 12, bottom: 8, left: 4 }
+                    },
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: m ? 'top' : 'bottom',
                             reverse: true,
-                            labels: { font: { size: 11, family: "'Inter', sans-serif" }, boxWidth: 12 }
+                            align: 'center',
+                            labels: {
+                                font: { size: m ? 9 : 11, family: "'Inter', sans-serif" },
+                                boxWidth: m ? 10 : 12,
+                                padding: m ? 5 : 14,
+                                usePointStyle: true,
+                                pointStyle: 'line'
+                            }
                         },
                         datalabels: { display: false },
                         tooltip: {
@@ -2536,15 +2580,27 @@
                     scales: {
                         y: {
                             beginAtZero: false,
+                            grid: { color: 'rgba(15, 17, 21, 0.07)' },
+                            border: { display: false },
                             ticks: {
+                                font: { size: m ? 10 : 11 },
+                                padding: m ? 4 : 6,
+                                maxTicksLimit: m ? 6 : 12,
                                 callback: function (value) {
                                     return '$' + value.toLocaleString();
                                 }
                             }
                         },
                         x: {
+                            grid: { display: false },
+                            border: { display: false },
                             ticks: {
-                                maxTicksLimit: 14,
+                                maxRotation: 0,
+                                minRotation: 0,
+                                autoSkip: true,
+                                autoSkipPadding: m ? 4 : 10,
+                                maxTicksLimit: m ? 7 : 14,
+                                font: { size: m ? 10 : 11 },
                                 callback: function (val) {
                                     const l = String(val);
                                     if (l === '0') return currentLanguage === 'ru' ? 'Старт' : 'Start';
@@ -2577,6 +2633,8 @@
 
             const ctx = document.getElementById('incomeChart');
             if (incomeChartInstance) incomeChartInstance.destroy();
+
+            const m = isMobileChartLayout();
 
             incomeChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -2621,12 +2679,22 @@
                 options: {
                     interaction: { mode: 'index', intersect: false },
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: m ? { top: 0, right: 2, bottom: 0, left: 0 } : { top: 8, right: 12, bottom: 8, left: 4 }
+                    },
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: m ? 'top' : 'bottom',
                             reverse: true,
-                            labels: { font: { size: 11, family: "'Inter', sans-serif" }, boxWidth: 12 }
+                            align: 'center',
+                            labels: {
+                                font: { size: m ? 9 : 11, family: "'Inter', sans-serif" },
+                                boxWidth: m ? 10 : 12,
+                                padding: m ? 5 : 14,
+                                usePointStyle: true,
+                                pointStyle: 'line'
+                            }
                         },
                         datalabels: { display: false },
                         tooltip: {
@@ -2649,15 +2717,27 @@
                     scales: {
                         y: {
                             beginAtZero: true,
+                            grid: { color: 'rgba(15, 17, 21, 0.07)' },
+                            border: { display: false },
                             ticks: {
+                                font: { size: m ? 10 : 11 },
+                                padding: m ? 4 : 6,
+                                maxTicksLimit: m ? 6 : 12,
                                 callback: function (value) {
                                     return '$' + value.toLocaleString();
                                 }
                             }
                         },
                         x: {
+                            grid: { display: false },
+                            border: { display: false },
                             ticks: {
-                                maxTicksLimit: 14,
+                                maxRotation: 0,
+                                minRotation: 0,
+                                autoSkip: true,
+                                autoSkipPadding: m ? 4 : 10,
+                                maxTicksLimit: m ? 7 : 14,
+                                font: { size: m ? 10 : 11 },
                                 callback: function (val) {
                                     const l = String(val);
                                     return currentLanguage === 'ru' ? ('м ' + l) : ('M' + l);
@@ -2672,6 +2752,14 @@
         // Event listeners
         document.getElementById('initialAmount').addEventListener('input', calculateReturns);
         document.getElementById('investMonths').addEventListener('input', calculateReturns);
+
+        let debounceChartResize;
+        window.addEventListener('resize', () => {
+            clearTimeout(debounceChartResize);
+            debounceChartResize = setTimeout(() => {
+                calculateReturns();
+            }, 150);
+        });
 
         // Initialize
         function applyNavigatorLinks() {

@@ -1499,8 +1499,18 @@
             scroll-behavior: smooth;
         }
     </style>
+    <link rel="stylesheet" href="https://cry-maden008.pythonanywhere.com/vip-static/vip-auth.css" />
 </head>
 <body class="scroll-smooth">
+    <div id="vipAuthGate" class="vip-auth-gate" role="dialog" aria-modal="true">
+      <div class="vip-auth-gate-inner">
+        <h2>Доступ DeFi Labs VIP</h2>
+        <p>Введите пароль из Telegram-бота (DeFi Labs VIP → «Получить пароль»). Один пароль для всей экосистемы.</p>
+        <div class="vip-auth-err" id="vipAuthErr"></div>
+        <input type="password" class="vip-auth-input" id="vipAuthInput" autocomplete="current-password" placeholder="NAV:… целиком" />
+        <button type="button" class="vip-auth-submit" id="vipAuthSubmit">Войти</button>
+      </div>
+    </div>
     <!-- HEADER -->
     <header>
         <div class="logo" data-i18n="header.logo">Stable Yield Strategy</div>
@@ -2770,10 +2780,15 @@
             if (p) p.href = u;
         }
 
-        window.addEventListener('load', () => {
+        function bootStableYield() {
             applyNavigatorLinks();
             setLanguage('en');
-        });
+        }
+    </script>
+    <script src="https://cry-maden008.pythonanywhere.com/vip-static/vip-auth-client.js"></script>
+    <script>
+        window.VIP_AUTH_BACKEND = 'https://cry-maden008.pythonanywhere.com';
+        DeFiLabsVipAuth.init({ onAuthenticated: bootStableYield });
     </script>
 </body>
 </html>
